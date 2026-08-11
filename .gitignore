@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output (packages)
+packages/*/dist/
+
+# Generated pipeline output (demos root dist)
+dist/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Marp build output (docs/slides)
+docs/slides/slides.html
+docs/slides/index.html
+docs/slides/*.pdf
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+output/

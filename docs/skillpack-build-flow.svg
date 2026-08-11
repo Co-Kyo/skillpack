@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" font-family="'Segoe UI','PingFang SC','Microsoft YaHei',monospace">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4A90D9"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5CB85C"/>
+    </marker>
+    <linearGradient id="bgLeft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F5F7FA"/>
+      <stop offset="100%" stop-color="#EBF0F5"/>
+    </linearGradient>
+    <linearGradient id="bgCenter" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FAFCFF"/>
+      <stop offset="100%" stop-color="#F0F4FA"/>
+    </linearGradient>
+    <linearGradient id="bgRight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F5FFF5"/>
+      <stop offset="100%" stop-color="#EBF5EB"/>
+    </linearGradient>
+    <filter id="shadow" x="-4" y="-4" width="12" height="12">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- 标题 -->
+  <rect x="0" y="0" width="1280" height="60" fill="#2C3E50" rx="0"/>
+  <text x="640" y="38" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">skillpack 打包管线 —— TS Step 定义 → Markdown 过程文件</text>
+
+  <!-- ============================================================ -->
+  <!-- PANEL 1: 输入（开发者写的 TS 定义） -->
+  <!-- ============================================================ -->
+  <rect x="30" y="80" width="340" height="800" fill="url(#bgLeft)" rx="12" stroke="#C0D0E0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="30" y="80" width="340" height="36" fill="#4A6FA5" rx="12"/>
+  <rect x="30" y="104" width="340" height="12" fill="#4A6FA5"/>
+  <text x="200" y="103" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">① 输入：TS Step 定义</text>
+  <text x="200" y="130" text-anchor="middle" fill="#666" font-size="11">skill-dev-demo/entry.ts</text>
+
+  <!-- Step 00 定义卡片 -->
+  <rect x="45" y="148" width="310" height="125" fill="#fff" rx="8" stroke="#D0D8E0" stroke-width="1"/>
+  <rect x="45" y="148" width="310" height="24" fill="#E8F0FE" rx="8"/>
+  <rect x="45" y="166" width="310" height="6" fill="#E8F0FE"/>
+  <circle cx="58" cy="160" r="7" fill="#4A6FA5"/>
+  <text x="58" y="164" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">00</text>
+  <text x="72" y="164" fill="#333" font-size="12" font-weight="bold">intent-anchor</text>
+  <text x="280" y="164" fill="#888" font-size="10">mode: none</text>
+
+  <text x="55" y="188" fill="#666" font-size="10">
+    <tspan x="55" dy="0">dependsOn: []</tspan>
+    <tspan x="55" dy="16">schedule: { mode: 'none' }</tspan>
+    <tspan x="55" dy="16">writes: anchors.json</tspan>
+    <tspan x="55" dy="16">barrier: ✔</tspan>
+  </text>
+
+  <!-- Step 01 定义卡片 -->
+  <rect x="45" y="288" width="310" height="155" fill="#fff" rx="8" stroke="#D0D8E0" stroke-width="1"/>
+  <rect x="45" y="288" width="310" height="24" fill="#E8F0FE" rx="8"/>
+  <rect x="45" y="306" width="310" height="6" fill="#E8F0FE"/>
+  <circle cx="58" cy="300" r="7" fill="#E67E22"/>
+  <text x="58" y="304" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">01</text>
+  <text x="72" y="304" fill="#333" font-size="12" font-weight="bold">brainstorm</text>
+  <text x="280" y="304" fill="#888" font-size="10">mode: batch</text>
+
+  <text x="55" y="328" fill="#666" font-size="10">
+    <tspan x="55" dy="0">dependsOn: ['intent-anchor']</tspan>
+    <tspan x="55" dy="16">schedule: { mode: 'batchParallel',</tspan>
+    <tspan x="65" dy="15">agents: [...4 agents],</tspan>
+    <tspan x="65" dy="15">convergence: {...},</tspan>
+    <tspan x="65" dy="15">gate: {...} }</tspan>
+    <tspan x="55" dy="16">writes: requirement-web.json</tspan>
+  </text>
+
+  <!-- Step 02 定义卡片 -->
+  <rect x="45" y="458" width="310" height="140" fill="#fff" rx="8" stroke="#D0D8E0" stroke-width="1"/>
+  <rect x="45" y="458" width="310" height="24" fill="#E8F0FE" rx="8"/>
+  <rect x="45" y="476" width="310" height="6" fill="#E8F0FE"/>
+  <circle cx="58" cy="470" r="7" fill="#27AE60"/>
+  <text x="58" y="474" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">02</text>
+  <text x="72" y="474" fill="#333" font-size="12" font-weight="bold">capability-research</text>
+  <text x="280" y="474" fill="#888" font-size="10">mode: dag</text>
+
+  <text x="55" y="498" fill="#666" font-size="10">
+    <tspan x="55" dy="0">dependsOn: ['brainstorm']</tspan>
+    <tspan x="55" dy="16">schedule: { mode: 'dag',</tspan>
+    <tspan x="65" dy="15">groups: [渲染层, 工具链, 工程化],</tspan>
+    <tspan x="65" dy="15">maxConcurrency: 5 }</tspan>
+    <tspan x="55" dy="16">writes: capabilities/*.md</tspan>
+    <tspan x="55" dy="16">reuse: file-existence skip</tspan>
+  </text>
+
+  <!-- Step 03 定义卡片 -->
+  <rect x="45" y="613" width="310" height="140" fill="#fff" rx="8" stroke="#D0D8E0" stroke-width="1"/>
+  <rect x="45" y="613" width="310" height="24" fill="#E8F0FE" rx="8"/>
+  <rect x="45" y="631" width="310" height="6" fill="#E8F0FE"/>
+  <circle cx="58" cy="625" r="7" fill="#8E44AD"/>
+  <text x="58" y="629" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">03</text>
+  <text x="72" y="629" fill="#333" font-size="12" font-weight="bold">briefing-assemble</text>
+  <text x="280" y="629" fill="#888" font-size="10">mode: window</text>
+
+  <text x="55" y="653" fill="#666" font-size="10">
+    <tspan x="55" dy="0">dependsOn: ['capability-research']</tspan>
+    <tspan x="55" dy="16">schedule: { mode: 'rollingWindow',</tspan>
+    <tspan x="65" dy="15">maxSlots: 5,</tspan>
+    <tspan x="65" dy="15">agent: { label, role, task } }</tspan>
+    <tspan x="55" dy="16">writes: briefings/*.md</tspan>
+    <tspan x="55" dy="16">reuse: file-existence skip</tspan>
+  </text>
+
+  <!-- dep 依赖连线 -->
+  <line x1="200" y1="273" x2="200" y2="286" stroke="#E67E22" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="200" y1="443" x2="200" y2="456" stroke="#27AE60" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="200" y1="598" x2="200" y2="611" stroke="#8E44AD" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+  <text x="200" y="281" text-anchor="middle" fill="#E67E22" font-size="9">dependsOn</text>
+  <text x="200" y="451" text-anchor="middle" fill="#27AE60" font-size="9">dependsOn</text>
+  <text x="200" y="606" text-anchor="middle" fill="#8E44AD" font-size="9">dependsOn</text>
+
+  <!-- 底部说明 -->
+  <rect x="45" y="770" width="310" height="95" fill="#fff8e0" rx="8" stroke="#E0C870" stroke-width="1"/>
+  <text x="200" y="790" text-anchor="middle" fill="#8B6914" font-size="11" font-weight="bold">💡 关键：只声明「依赖谁」</text>
+  <text x="60" y="810" fill="#8B6914" font-size="10">不写死序号（01, 02, 03...）</text>
+  <text x="60" y="828" fill="#8B6914" font-size="10">序号 = skillpack 自动拓扑排序生成</text>
+  <text x="60" y="846" fill="#8B6914" font-size="10">改依赖关系 → 序号自动重排</text>
+
+  <!-- ============================================================ -->
+  <!-- PANEL 2: 打包管线 -->
+  <!-- ============================================================ -->
+  <rect x="390" y="80" width="520" height="800" fill="url(#bgCenter)" rx="12" stroke="#B0C8E0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="390" y="80" width="520" height="36" fill="#3D5A80" rx="12"/>
+  <rect x="390" y="104" width="520" height="12" fill="#3D5A80"/>
+  <text x="650" y="103" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">② skillpack 打包管线</text>
+  <text x="650" y="130" text-anchor="middle" fill="#666" font-size="11">packages/skillpack-build + skillpack-common</text>
+
+  <!-- 阶段 1: 校验 -->
+  <rect x="410" y="148" width="480" height="130" fill="#fff" rx="10" stroke="#4A90D9" stroke-width="1.5"/>
+  <rect x="410" y="148" width="480" height="28" fill="#4A90D9" rx="10"/>
+  <rect x="410" y="170" width="480" height="6" fill="#4A90D9"/>
+  <text x="650" y="167" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Phase 1: 校验 (validate)</text>
+
+  <text x="430" y="198" fill="#333" font-size="11" font-weight="bold">validateStep(step)</text>
+  <text x="445" y="215" fill="#555" font-size="10">每个 step：id/title/writes/schedule 非空检查</text>
+  <text x="430" y="238" fill="#333" font-size="11" font-weight="bold">validateDependencyRefs(steps)</text>
+  <text x="445" y="255" fill="#555" font-size="10">dependsOn 指向的 step id 必须真实存在</text>
+
+  <!-- 箭头 -->
+  <line x1="650" y1="278" x2="650" y2="300" stroke="#4A90D9" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+  <!-- 阶段 2: 拓扑排序 -->
+  <rect x="410" y="305" width="480" height="155" fill="#fff" rx="10" stroke="#F39C12" stroke-width="1.5"/>
+  <rect x="410" y="305" width="480" height="28" fill="#F39C12" rx="10"/>
+  <rect x="410" y="327" width="480" height="6" fill="#F39C12"/>
+  <text x="650" y="324" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Phase 2: 依赖解析 + 拓扑排序</text>
+
+  <text x="430" y="355" fill="#333" font-size="11" font-weight="bold">resolveStepOrder(steps)</text>
+  <text x="445" y="373" fill="#555" font-size="10">Kahn 算法：根据 dependsOn 构建有向无环图</text>
+
+  <rect x="440" y="388" width="190" height="60" fill="#FFF8E0" rx="6" stroke="#F0D060" stroke-width="1"/>
+  <text x="535" y="407" text-anchor="middle" fill="#7A5C00" font-size="11" font-weight="bold">依赖图</text>
+  <text x="450" y="425" fill="#7A5C00" font-size="10">intent-anchor (root)</text>
+  <text x="450" y="440" fill="#7A5C00" font-size="10">  └─→ brainstorm</text>
+
+  <rect x="650" y="388" width="190" height="60" fill="#E8F8E8" rx="6" stroke="#80C880" stroke-width="1"/>
+  <text x="745" y="407" text-anchor="middle" fill="#2D6A2D" font-size="11" font-weight="bold">产出顺序</text>
+  <text x="660" y="425" fill="#2D6A2D" font-size="10">00: intent-anchor</text>
+  <text x="660" y="440" fill="#2D6A2D" font-size="10">01: brainstorm</text>
+
+  <!-- 箭头 -->
+  <line x1="650" y1="460" x2="650" y2="485" stroke="#F39C12" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 阶段 3: 继续排序 + 渲染 -->
+  <rect x="410" y="490" width="480" height="140" fill="#fff" rx="10" stroke="#5CB85C" stroke-width="1.5"/>
+  <rect x="410" y="490" width="480" height="28" fill="#5CB85C" rx="10"/>
+  <rect x="410" y="512" width="480" height="6" fill="#5CB85C"/>
+  <text x="650" y="509" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Phase 3: 模板解析 + Markdown 渲染</text>
+
+  <text x="430" y="538" fill="#333" font-size="11">对于每个 ResolvedStep：</text>
+  <text x="445" y="558" fill="#555" font-size="10">1. 解析 {{build}} 变量（stepSeq, stepId → "00", "intent-anchor"）</text>
+  <text x="445" y="576" fill="#555" font-size="10">2. 按 schedule.mode 选择渲染函数（renderNone / renderBatchParallel / ...）</text>
+  <text x="445" y="594" fill="#555" font-size="10">3. 拼接 Markdown：标题 → 文件引用 → 调度策略 → barrier → 插件</text>
+  <text x="445" y="612" fill="#555" font-size="10">4. fs.writeFileSync(seq-id.md, content)</text>
+
+  <!-- 箭头 -->
+  <line x1="650" y1="630" x2="650" y2="655" stroke="#5CB85C" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- 阶段 4: 输出 -->
+  <rect x="410" y="660" width="480" height="100" fill="#E8F5E8" rx="10" stroke="#5CB85C" stroke-width="2"/>
+  <rect x="410" y="660" width="480" height="28" fill="#449944" rx="10"/>
+  <rect x="410" y="682" width="480" height="6" fill="#449944"/>
+  <text x="650" y="679" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Output: ResolvedPipeline</text>
+
+  <text x="430" y="710" fill="#333" font-size="11">return { pipeline, files }</text>
+  <text x="445" y="730" fill="#555" font-size="10">pipeline.steps: ResolvedStep[] — 每个 step 带有 seq 序号</text>
+  <text x="445" y="748" fill="#555" font-size="10">files: string[] — 已写入磁盘的 Markdown 文件路径列表</text>
+
+  <!-- ============================================================ -->
+  <!-- PANEL 3: 输出 Markdown -->
+  <!-- ============================================================ -->
+  <rect x="930" y="80" width="330" height="800" fill="url(#bgRight)" rx="12" stroke="#B0D0B0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="930" y="80" width="330" height="36" fill="#3D7A3D" rx="12"/>
+  <rect x="930" y="104" width="330" height="12" fill="#3D7A3D"/>
+  <text x="1095" y="103" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">③ 产出：Markdown 文件</text>
+  <text x="1095" y="130" text-anchor="middle" fill="#666" font-size="11">output/</text>
+
+  <!-- 文件列表 -->
+  <rect x="945" y="148" width="300" height="36" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
+  <text x="955" y="170" fill="#333" font-size="11" font-weight="bold">📄 00-intent-anchor.md</text>
+  <text x="1160" y="170" fill="#888" font-size="10">43 lines</text>
+
+  <rect x="945" y="190" width="300" height="36" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
+  <text x="955" y="212" fill="#333" font-size="11" font-weight="bold">📄 01-brainstorm.md</text>
+  <text x="1160" y="212" fill="#888" font-size="10">86 lines</text>
+
+  <rect x="945" y="232" width="300" height="36" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
+  <text x="955" y="254" fill="#333" font-size="11" font-weight="bold">📄 02-capability-research.md</text>
+  <text x="1160" y="254" fill="#888" font-size="10">70 lines</text>
+
+  <rect x="945" y="274" width="300" height="36" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
+  <text x="955" y="296" fill="#333" font-size="11" font-weight="bold">📄 03-briefing-assemble.md</text>
+  <text x="1160" y="296" fill="#888" font-size="10">62 lines</text>
+
+  <!-- 示例展开：一个 Markdown 文件的构成 -->
+  <text x="1095" y="340" text-anchor="middle" fill="#3D7A3D" font-size="13" font-weight="bold">展开一个 Markdown 文件</text>
+
+  <rect x="945" y="355" width="300" height="240" fill="#1E1E1E" rx="6" stroke="#333" stroke-width="1"/>
+  <rect x="945" y="355" width="300" height="22" fill="#2D2D2D" rx="6"/>
+  <rect x="945" y="373" width="300" height="4" fill="#2D2D2D"/>
+  <circle cx="958" cy="366" r="4" fill="#FF5F56"/>
+  <circle cx="972" cy="366" r="4" fill="#FFBD2E"/>
+  <circle cx="986" cy="366" r="4" fill="#27C93F"/>
+  <text x="1095" y="370" text-anchor="middle" fill="#999" font-size="9">01-brainstorm.md</text>
+
+  <text x="958" y="400" fill="#6A9955" font-size="10"># Step 01: 头脑风暴</text>
+  <text x="958" y="418" fill="#CE9178" font-size="10">...</text>
+  <text x="958" y="436" fill="#569CD6" font-size="10">## 文件引用</text>
+  <text x="958" y="454" fill="#C0C0C0" font-size="10">| anchors.json | ... |</text>
+  <text x="958" y="472" fill="#C0C0C0" font-size="10">| schemas.md   | ... |</text>
+  <text x="958" y="490" fill="#569CD6" font-size="10">## 调度策略</text>
+  <text x="958" y="508" fill="#6A9955" font-size="10">### Schedule: 批量并行</text>
+  <text x="958" y="526" fill="#C0C0C0" font-size="10">| Agent | 角色 | 超时 |</text>
+  <text x="958" y="544" fill="#C0C0C0" font-size="10">| brainstorm-scenario | ... | 3min |</text>
+  <text x="958" y="562" fill="#569CD6" font-size="10">## Barrier 1</text>
+  <text x="958" y="580" fill="#CE9178" font-size="10">*Generated by skillpack v0.1.0*</text>
+
+  <!-- 关键：TS 中的 schedule.mode → Markdown 中的调度描述 -->
+  <text x="1095" y="625" text-anchor="middle" fill="#3D7A3D" font-size="13" font-weight="bold">TS 模式 → Markdown 标题</text>
+
+  <rect x="945" y="640" width="300" height="95" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
+  <text x="960" y="660" fill="#555" font-size="10">
+    <tspan x="960" dy="0">mode: 'none'          → 主线程串行（无 Agent）</tspan>
+    <tspan x="960" dy="18">mode: 'batchParallel'  → 批量并行（含 gate + convergence）</tspan>
+    <tspan x="960" dy="18">mode: 'dag'            → 拓扑分批 (DAG)</tspan>
+    <tspan x="960" dy="18">mode: 'rollingWindow'  → 滚动窗口（完成一个补一个）</tspan>
+    <tspan x="960" dy="18">mode: 'cascade'        → 多阶段流水线</tspan>
+  </text>
+
+  <!-- 关键概念：dependsOn → seq -->
+  <rect x="945" y="745" width="300" height="120" fill="#FFF0E0" rx="8" stroke="#E0B080" stroke-width="1"/>
+  <text x="1095" y="767" text-anchor="middle" fill="#8B4513" font-size="11" font-weight="bold">🔑 关键：dependsOn 决定序号</text>
+  <text x="960" y="790" fill="#8B4513" font-size="10">
+    <tspan x="960" dy="0">开发者写 TS 时：不知道也不关心序号</tspan>
+    <tspan x="960" dy="18">只需要声明 dependsOn: ['brainstorm']</tspan>
+    <tspan x="960" dy="18">skillpack 自动计算出 seq = 02</tspan>
+    <tspan x="960" dy="18"></tspan>
+    <tspan x="960" dy="18">改了依赖关系 → 序号自动重排</tspan>
+    <tspan x="960" dy="18">和 webpack 的 chunk ID 分配一个道理</tspan>
+  </text>
+</svg>

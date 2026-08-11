@@ -1,0 +1,36 @@
+{
+  "name": "@co-kyo/skillpack",
+  "version": "0.1.0",
+  "description": "Build LLM executable Markdown skills from structured pipeline definitions",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "skillpack": "./dist/bin/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Co-Kyo/skillpack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Co-Kyo/skillpack/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@co-kyo/skillpack-types": "^0.1.0",
+    "@co-kyo/skillpack-common": "^0.1.0"
+  }
+}

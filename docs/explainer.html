@@ -141,6 +141,19 @@ ul {
   padding-top: 12px;
 }
 
+.svg-box {
+  margin: 16px 0;
+}
+
+.svg-box object,
+.svg-box img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
 .badge {
   display: inline-block;
   background: var(--accent);
@@ -163,6 +176,11 @@ ul {
   <h2><span class="badge">1</span>skillpack 是什么</h2>
   <p>skillpack 是一个把结构化 TypeScript 定义打包成 LLM 可执行 Markdown Skill 的构建工具。</p>
   <p>你使用 <code>StepDefinition</code> 描述流程步骤，使用控制节点描述步骤内部调度，skillpack 负责校验、排序、渲染并输出 <code>SKILL.md</code> 和 <code>processes/*.md</code>。</p>
+  <div class="svg-box">
+    <object data="svg/01-birdseye.svg" type="image/svg+xml" style="min-height:380px;">
+      <img src="svg/01-birdseye.svg" alt="全局鸟瞰">
+    </object>
+  </div>
 </section>
 
 <section class="chapter">
@@ -172,6 +190,11 @@ ul {
     <div class="card"><strong>@co-kyo/skillpack-types</strong><span>StepDefinition、控制节点、task/seq/parallel/mapNode</span></div>
     <div class="card"><strong>@co-kyo/skillpack-common</strong><span>校验、拓扑排序、图遍历</span></div>
     <div class="card"><strong>@co-kyo/skillpack-validate</strong><span>独立校验 CLI</span></div>
+  </div>
+  <div class="svg-box">
+    <object data="svg/02-deps.svg" type="image/svg+xml" style="min-height:380px;">
+      <img src="svg/02-deps.svg" alt="依赖拓扑">
+    </object>
   </div>
 </section>
 
@@ -237,6 +260,11 @@ interface StepDefinition {
 }</pre>
   </div>
   <p><code>graph</code> 是当前版本的核心字段，替代旧版的 <code>schedule</code>。它直接使用递归控制节点，不再使用扁平 nodes/edges/entry。</p>
+  <div class="svg-box">
+    <object data="svg/05-skill-anatomy.svg" type="image/svg+xml" style="min-height:400px;">
+      <img src="svg/05-skill-anatomy.svg" alt="Skill Anatomy">
+    </object>
+  </div>
 </section>
 
 <section class="chapter">
@@ -326,6 +354,21 @@ export default defineConfig({
     <li>Resolve：根据 dependsOn 做拓扑排序，解析 {{step:xxx}} 引用。</li>
     <li>Render：渲染 SKILL.md、processes、align-report 与产物清单。</li>
   </ul>
+  <div class="svg-box">
+    <object data="svg/03-pipeline.svg" type="image/svg+xml" style="min-height:360px;">
+      <img src="svg/03-pipeline.svg" alt="Build Pipeline">
+    </object>
+  </div>
+  <div class="svg-box">
+    <object data="skillpack-build-flow.svg" type="image/svg+xml" style="min-height:360px;">
+      <img src="skillpack-build-flow.svg" alt="Build Flow">
+    </object>
+  </div>
+  <div class="svg-box">
+    <object data="svg/06-dev-loop.svg" type="image/svg+xml" style="min-height:400px;">
+      <img src="svg/06-dev-loop.svg" alt="Dev Loop">
+    </object>
+  </div>
 </section>
 
 <section class="chapter">

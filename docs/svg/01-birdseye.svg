@@ -80,7 +80,7 @@
   <g class="node">
     <rect x="55" y="90" width="195" height="120" rx="10" ry="10" fill="url(#g-teal)" filter="url(#shadow)"/>
     <rect x="55" y="90" width="6" height="120" rx="3" ry="3" fill="#38bdf8" opacity="0.6"/>
-    <text x="75" y="118" class="box-title">skillpack-types</text>
+    <text x="75" y="118" class="box-title">@co-kyo/skillpack-types</text>
     <text x="75" y="140" class="box-subtitle">类型系统 + 构建函数</text>
     <circle cx="77" cy="163" r="3" fill="#7dd3fc"/>
     <text x="85" y="166" class="box-tag">leaf · zero deps</text>
@@ -90,7 +90,7 @@
   <g class="node">
     <rect x="280" y="90" width="195" height="120" rx="10" ry="10" fill="url(#g-blue)" filter="url(#shadow)"/>
     <rect x="280" y="90" width="6" height="120" rx="3" ry="3" fill="#60a5fa" opacity="0.6"/>
-    <text x="300" y="118" class="box-title">skillpack-common</text>
+    <text x="300" y="118" class="box-title">@co-kyo/skillpack-common</text>
     <text x="300" y="140" class="box-subtitle">校验 / 排序 / 图遍历</text>
     <circle cx="302" cy="163" r="3" fill="#93c5fd"/>
     <text x="310" y="166" class="box-tag">depends on types</text>
@@ -100,7 +100,7 @@
   <g class="node">
     <rect x="505" y="90" width="195" height="120" rx="10" ry="10" fill="url(#g-indigo)" filter="url(#shadow)"/>
     <rect x="505" y="90" width="6" height="120" rx="3" ry="3" fill="#818cf8" opacity="0.6"/>
-    <text x="525" y="118" class="box-title">skillpack-build</text>
+    <text x="525" y="118" class="box-title">@co-kyo/skillpack</text>
     <text x="525" y="140" class="box-subtitle">打包器 + CLI</text>
     <circle cx="527" cy="163" r="3" fill="#a5b4fc"/>
     <text x="535" y="166" class="box-tag">depends on types, common</text>
@@ -110,7 +110,7 @@
   <g class="node">
     <rect x="730" y="90" width="195" height="120" rx="10" ry="10" fill="url(#g-violet)" filter="url(#shadow)"/>
     <rect x="730" y="90" width="6" height="120" rx="3" ry="3" fill="#a78bfa" opacity="0.6"/>
-    <text x="750" y="118" class="box-title">skillpack-validate</text>
+    <text x="750" y="118" class="box-title">@co-kyo/skillpack-validate</text>
     <text x="750" y="140" class="box-subtitle">校验 CLI</text>
     <circle cx="752" cy="163" r="3" fill="#c4b5fd"/>
     <text x="760" y="166" class="box-tag">depends on types, common</text>

@@ -81,7 +81,7 @@
   <g class="node">
     <rect x="70" y="190" width="270" height="170" rx="10" ry="10" fill="url(#g-teal)" filter="url(#shadow)"/>
     <rect x="70" y="190" width="6" height="170" rx="3" ry="3" fill="#38bdf8" opacity="0.5"/>
-    <text x="90" y="216" class="node-title">skillpack-types</text>
+    <text x="90" y="216" class="node-title">@co-kyo/skillpack-types</text>
     <text x="90" y="238" class="node-subtitle">类型系统 + 构建函数</text>
     <line x1="90" y1="250" x2="320" y2="250" stroke="#7dd3fc" stroke-width="0.5" opacity="0.3"/>
     <text x="92" y="268" class="node-label">tsconfig  —</text>
@@ -95,11 +95,11 @@
   <g class="node">
     <rect x="660" y="190" width="270" height="170" rx="10" ry="10" fill="url(#g-blue)" filter="url(#shadow)"/>
     <rect x="660" y="190" width="6" height="170" rx="3" ry="3" fill="#60a5fa" opacity="0.5"/>
-    <text x="680" y="216" class="node-title">skillpack-common</text>
+    <text x="680" y="216" class="node-title">@co-kyo/skillpack-common</text>
     <text x="680" y="238" class="node-subtitle">校验 / 排序 / 图遍历</text>
     <line x1="680" y1="250" x2="910" y2="250" stroke="#93c5fd" stroke-width="0.5" opacity="0.3"/>
     <text x="682" y="268" class="node-label">tsconfig  → types</text>
-    <text x="682" y="284" class="node-label">npm  skillpack-types</text>
+    <text x="682" y="284" class="node-label">npm  @co-kyo/skillpack-types</text>
     <text x="682" y="308" class="node-label" fill="#93c5fd" font-style="italic">Exports:</text>
     <text x="682" y="324" class="node-code">validateStep · resolveStepOrder</text>
     <text x="682" y="340" class="node-code">(Kahn) · walkGraph</text>
@@ -109,11 +109,11 @@
   <g class="node">
     <rect x="70" y="450" width="270" height="170" rx="10" ry="10" fill="url(#g-indigo)" filter="url(#shadow)"/>
     <rect x="70" y="450" width="6" height="170" rx="3" ry="3" fill="#818cf8" opacity="0.5"/>
-    <text x="90" y="476" class="node-title">skillpack-build</text>
+    <text x="90" y="476" class="node-title">@co-kyo/skillpack</text>
     <text x="90" y="498" class="node-subtitle">打包器 + CLI</text>
     <line x1="90" y1="510" x2="320" y2="510" stroke="#a5b4fc" stroke-width="0.5" opacity="0.3"/>
     <text x="92" y="528" class="node-label">tsconfig  → types, → common</text>
-    <text x="92" y="544" class="node-label">npm  skillpack-types, skillpack-common</text>
+    <text x="92" y="544" class="node-label">npm  @co-kyo/skillpack-types/common</text>
     <text x="92" y="568" class="node-label" fill="#a5b4fc" font-style="italic">Exports:</text>
     <text x="92" y="584" class="node-code">buildPipeline · defineConfig</text>
     <text x="92" y="600" class="node-code">renderStep · bin: skillpack CLI</text>
@@ -123,11 +123,11 @@
   <g class="node">
     <rect x="660" y="450" width="270" height="170" rx="10" ry="10" fill="url(#g-violet)" filter="url(#shadow)"/>
     <rect x="660" y="450" width="6" height="170" rx="3" ry="3" fill="#a78bfa" opacity="0.5"/>
-    <text x="680" y="476" class="node-title">skillpack-validate</text>
+    <text x="680" y="476" class="node-title">@co-kyo/skillpack-validate</text>
     <text x="680" y="498" class="node-subtitle">校验 CLI</text>
     <line x1="680" y1="510" x2="910" y2="510" stroke="#c4b5fd" stroke-width="0.5" opacity="0.3"/>
     <text x="682" y="528" class="node-label">tsconfig  → types, → common</text>
-    <text x="682" y="544" class="node-label">npm  skillpack-types, skillpack-common</text>
+    <text x="682" y="544" class="node-label">npm  @co-kyo/skillpack-types/common</text>
     <text x="682" y="568" class="node-label" fill="#c4b5fd" font-style="italic">Exports:</text>
     <text x="682" y="584" class="node-code">validatePipeline</text>
   </g>

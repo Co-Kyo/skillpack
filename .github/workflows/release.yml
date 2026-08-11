@@ -38,13 +38,44 @@ jobs:
           git fetch --tags --force
           git checkout "$RELEASE_TAG"
 
+      - name: Version gate
+        id: version-gate
+        run: |
+          set -euo pipefail
+          VERSION="${RELEASE_TAG#v}"
+          PACKAGE_VERSION=$(node -p "require('./packages/skillpack-build/package.json').version")
+          if [ "$VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            echo "reason=version-mismatch" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          should_release=false
+          for pkg in \
+            packages/skillpack-types \
+            packages/skillpack-common \
+            packages/skillpack-build \
+            packages/skillpack-validate
+          do
+            name=$(node -p "require('./$pkg/package.json').name")
+            if npm view "$name@$VERSION" --registry=https://registry.npmjs.org/ >/dev/null 2>&1; then
+              echo "exists $name@$VERSION"
+            else
+              echo "missing $name@$VERSION"
+              should_release=true
+            fi
+          done
+          echo "should_release=$should_release" >> "$GITHUB_OUTPUT"
+
       - name: Install and verify
+        if: steps.version-gate.outputs.should_release == 'true'
         run: |
           npm ci
           npm run build
           npm run typecheck
 
       - name: Publish npm packages
+        if: steps.version-gate.outputs.should_release == 'true'
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
@@ -69,6 +100,7 @@ jobs:
           done
 
       - name: Pack release artifacts
+        if: steps.version-gate.outputs.should_release == 'true'
         run: |
           set -euo pipefail
           mkdir -p dist-release
@@ -83,6 +115,7 @@ jobs:
           done
 
       - name: Create GitHub Release
+        if: steps.version-gate.outputs.should_release == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}

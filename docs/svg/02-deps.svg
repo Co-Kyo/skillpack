@@ -87,8 +87,8 @@
     <text x="92" y="268" class="node-label">tsconfig  —</text>
     <text x="92" y="284" class="node-label">npm  —</text>
     <text x="92" y="308" class="node-label" fill="#7dd3fc" font-style="italic">Exports:</text>
-    <text x="92" y="324" class="node-code">types · createSkill · createAgent</text>
-    <text x="92" y="340" class="node-code">createBatch · mapWork · edge</text>
+    <text x="92" y="324" class="node-code">types · createSkill · step()</text>
+    <text x="92" y="340" class="node-code">task · seq · parallel · mapNode</text>
   </g>
 
   <!-- ═══ COMMON ═══ -->
@@ -136,9 +136,9 @@
   <g class="node">
     <rect x="240" y="670" width="520" height="85" rx="10" ry="10" fill="url(#g-green)" filter="url(#shadow)"/>
     <rect x="240" y="670" width="6" height="85" rx="3" ry="3" fill="#34d399" opacity="0.5"/>
-    <text x="270" y="695" class="node-title">@skillpack/demo</text>
+    <text x="270" y="695" class="node-title">@co-kyo/skillpack-demo</text>
     <text x="270" y="716" class="node-info">文件: skillpack.config.ts, skill.ts</text>
-    <text x="270" y="738" class="node-info">npm: skillpack-types, skillpack-common, skillpack-build, skillpack-validate + tsx (dev)</text>
+    <text x="270" y="738" class="node-info">npm: @co-kyo/skillpack* + tsx (dev)</text>
   </g>
 
   <!-- ═══ ARROWS: ROOT → PACKAGES ═══ (solid = tsconfig) -->

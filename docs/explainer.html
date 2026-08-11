@@ -3,1149 +3,337 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>skillpack monorepo 完全教学</title>
+<title>skillpack 当前 API 教学</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0c0c1a;
-  --surface: #181830;
-  --surface2: #222244;
-  --border: #2a2a50;
-  --border-light: #3a3a66;
-  --text: #e0e0f0;
-  --text-muted: #9090b8;
-  --accent: #6366f1;
-  --accent2: #0ea5e9;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --rose: #f43f5e;
-  --violet: #8b5cf6;
-  --sidebar-w: 280px;
+  --bg: #0b1120;
+  --surface: #111a2e;
+  --surface-2: #182442;
+  --border: #263450;
+  --text: #e2e8f0;
+  --muted: #8fa3bf;
+  --accent: #38bdf8;
+  --accent-2: #a78bfa;
+  --green: #34d399;
+  --amber: #fbbf24;
+  --rose: #fb7185;
 }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: smooth; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.8;
-  display: flex;
-  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  line-height: 1.75;
+  padding: 28px 24px 80px;
 }
 
-/* ── Sidebar ── */
-nav {
-  position: fixed; top: 0; left: 0; bottom: 0;
-  width: var(--sidebar-w);
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  padding: 0;
-  overflow-y: auto;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
-.nav-header {
-  padding: 24px 20px 16px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.nav-header h1 {
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.3px;
-}
-
-.nav-header .sub {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-.nav-body {
-  padding: 12px 0;
-  flex: 1;
-  overflow-y: auto;
-}
-
-nav a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 20px;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 13px;
-  transition: all .12s;
-  border-left: 2px solid transparent;
-}
-
-nav a:hover {
-  color: #fff;
-  background: var(--surface2);
-}
-
-nav a.active {
-  color: #fff;
-  background: var(--surface2);
-  border-left-color: var(--accent);
-}
-
-nav a .num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px; height: 20px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-/* ── Mobile toggle ── */
-.mobile-toggle {
-  display: none;
-  position: fixed;
-  top: 12px; left: 12px;
-  z-index: 200;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  color: #fff;
-  width: 40px; height: 40px;
-  border-radius: 8px;
-  font-size: 20px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-}
-
-.mobile-toggle:hover { background: var(--border); }
-
-/* ── Main ── */
-main {
-  margin-left: var(--sidebar-w);
-  flex: 1;
-  padding: 0;
-  max-width: 960px;
-}
-
-/* ── Hero ── */
-.hero {
-  padding: 64px 56px 48px;
-  background: linear-gradient(180deg, var(--surface) 0%, transparent 100%);
-  border-bottom: 1px solid var(--border);
-}
-
-.hero h2 {
+h1 {
   font-size: 30px;
-  font-weight: 800;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--accent2), var(--accent), var(--violet));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  line-height: 1.25;
+  margin-bottom: 8px;
 }
 
-.hero p {
-  color: var(--text-muted);
-  font-size: 15px;
-  max-width: 600px;
-  line-height: 1.7;
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 28px;
 }
 
-/* ── Chapter ── */
 .chapter {
-  padding: 48px 56px;
-  border-bottom: 1px solid var(--border);
-}
-
-.chapter:last-of-type {
-  border-bottom: none;
-}
-
-.ch-head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-
-.ch-head .badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px; height: 38px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.ch-head h3 {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.3;
-}
-
-/* ── Tip ── */
-.tip {
-  background: var(--surface);
-  border-left: 3px solid var(--amber);
-  border-radius: 0 8px 8px 0;
-  padding: 12px 18px;
-  margin-bottom: 20px;
-}
-
-.tip .label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: .8px;
-  color: var(--amber);
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.tip p, .tip ul {
-  font-size: 13.5px;
-  color: var(--text-muted);
-}
-
-.tip ul { padding-left: 18px; margin-top: 4px; }
-.tip li { margin-bottom: 2px; }
-
-/* ── Body text ── */
-.ch-body p {
-  font-size: 14px;
-  color: var(--text);
-  margin-bottom: 14px;
-  line-height: 1.9;
-}
-
-.ch-body p:last-child { margin-bottom: 0; }
-
-/* ── Code block ── */
-.code-block {
-  background: #111122;
   border: 1px solid var(--border);
   border-radius: 8px;
-  margin: 14px 0;
-  overflow-x: auto;
+  background: var(--surface);
+  padding: 22px;
+  margin: 18px 0;
 }
 
-.code-block .file-path {
-  font-size: 11px;
-  color: var(--text-muted);
-  padding: 6px 14px;
-  background: #0a0a18;
-  border-bottom: 1px solid var(--border);
-  font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+.chapter h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.chapter h3 {
+  font-size: 16px;
+  margin: 18px 0 8px;
+}
+
+p {
+  margin: 8px 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.tip {
+  border-left: 3px solid var(--accent);
+  background: #0f2036;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+}
+
+.code-block {
+  background: #0d1524;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 12px 0;
+  overflow-x: auto;
 }
 
 .code-block pre {
-  padding: 14px 16px;
-  font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 13px;
-  line-height: 1.6;
-  color: #c0c0e0;
-  tab-size: 2;
-  overflow-x: auto;
+  line-height: 1.7;
 }
 
-/* Light syntax */
-.kw { color: #818cf8; }
-.str { color: #34d399; }
-.com { color: #6b7280; font-style: italic; }
-.fn { color: #60a5fa; }
-.type { color: #f472b6; }
-.prop { color: #fbbf24; }
-.num { color: #f59e0b; }
-.op { color: #9ca3af; }
-.tag { color: #f472b6; }
-
-/* ── SVG object ── */
-.svg-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 16px;
-  margin: 16px 0;
-  overflow: hidden;
+.file-path {
+  color: var(--accent);
+  font-size: 12px;
+  margin-bottom: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-.svg-box object {
-  display: block;
-  width: 100%;
-  min-height: 320px;
-}
-
-.svg-box object svg {
-  display: block;
-  width: 100% !important;
-  height: auto !important;
-}
-
-/* ── Grid cards ── */
-.grid-2 {
+.grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
   margin: 14px 0;
 }
 
 .card {
-  background: var(--surface);
+  background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 14px 16px;
+  padding: 12px 14px;
 }
 
 .card strong {
   display: block;
-  font-size: 13px;
-  color: #fff;
-  margin-bottom: 3px;
-}
-
-.card span {
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-/* ── Takeaway ── */
-.takeaway {
-  background: linear-gradient(135deg, var(--surface), var(--surface2));
-  border: 1px solid var(--accent);
-  border-radius: 10px;
-  padding: 16px 20px;
-  margin-top: 20px;
-}
-
-.takeaway .label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: .8px;
-  color: var(--accent);
-  font-weight: 700;
   margin-bottom: 4px;
 }
 
-.takeaway ul {
-  padding-left: 18px;
-  font-size: 13px;
-  color: var(--text-muted);
+code {
+  background: #0d1524;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.92em;
 }
 
-.takeaway li { margin-bottom: 3px; }
-
-/* ── Inline table ── */
-.field-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 14px 0;
-  font-size: 13px;
+ul {
+  padding-left: 22px;
 }
 
-.field-table th {
-  text-align: left;
-  padding: 8px 12px;
-  background: var(--surface2);
-  border-bottom: 1px solid var(--border);
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-}
-
-.field-table td {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
-
-.field-table tr:hover td {
-  background: var(--surface);
-}
-
-.field-table .req {
-  display: inline-block;
-  background: var(--rose);
-  color: #fff;
-  font-size: 9px;
-  padding: 1px 6px;
-  border-radius: 3px;
-  font-weight: 700;
-  margin-left: 4px;
-}
-
-.field-table .opt {
-  display: inline-block;
-  background: var(--text-muted);
-  color: #fff;
-  font-size: 9px;
-  padding: 1px 6px;
-  border-radius: 3px;
-  font-weight: 700;
-  margin-left: 4px;
-}
-
-/* ── Footer ── */
-footer {
-  padding: 24px 56px 40px;
-  color: var(--text-muted);
-  font-size: 12px;
-  text-align: center;
+.takeaway {
   border-top: 1px solid var(--border);
+  margin-top: 16px;
+  padding-top: 12px;
 }
 
-/* ── Responsive ── */
-.mobile-only { display: none; }
-
-@media (max-width: 820px) {
-  .mobile-only { display: flex; }
-  nav {
-    transform: translateX(-100%);
-    transition: transform .25s;
-  }
-  nav.open { transform: translateX(0); }
-  main { margin-left: 0; }
-  .hero { padding: 56px 24px 32px; }
-  .hero h2 { font-size: 24px; }
-  .chapter { padding: 32px 24px; }
-  .grid-2 { grid-template-columns: 1fr; }
-  footer { padding: 20px 24px; }
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #04101d;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 8px;
 }
-
-@media (max-width: 480px) {
-  .ch-head { flex-wrap: wrap; }
-  .ch-head h3 { font-size: 17px; }
-  .code-block pre { font-size: 11px; }
-}
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<button class="mobile-toggle mobile-only" id="menuBtn" aria-label="菜单">☰</button>
+<h1>skillpack 当前 API 教学</h1>
+<p class="subtitle">基于 <code>@co-kyo/skillpack@0.1.0</code> 的当前 API 重写。</p>
 
-<nav id="sidebar">
-  <div class="nav-header">
-    <h1>🔧 skillpack 教学</h1>
-    <div class="sub">skillpack · 从零看懂</div>
+<section class="chapter">
+  <h2><span class="badge">1</span>skillpack 是什么</h2>
+  <p>skillpack 是一个把结构化 TypeScript 定义打包成 LLM 可执行 Markdown Skill 的构建工具。</p>
+  <p>你使用 <code>StepDefinition</code> 描述流程步骤，使用控制节点描述步骤内部调度，skillpack 负责校验、排序、渲染并输出 <code>SKILL.md</code> 和 <code>processes/*.md</code>。</p>
+</section>
+
+<section class="chapter">
+  <h2><span class="badge">2</span>公开包名</h2>
+  <div class="grid">
+    <div class="card"><strong>@co-kyo/skillpack</strong><span>CLI、defineConfig、createSkillFromModel、buildPipeline</span></div>
+    <div class="card"><strong>@co-kyo/skillpack-types</strong><span>StepDefinition、控制节点、task/seq/parallel/mapNode</span></div>
+    <div class="card"><strong>@co-kyo/skillpack-common</strong><span>校验、拓扑排序、图遍历</span></div>
+    <div class="card"><strong>@co-kyo/skillpack-validate</strong><span>独立校验 CLI</span></div>
   </div>
-  <div class="nav-body" id="navBody">
-    <a href="#ch1" class="active"><span class="num" style="background:#6366f1">1</span>欢迎</a>
-    <a href="#ch2"><span class="num" style="background:#0ea5e9">2</span>项目总览</a>
-    <a href="#ch3"><span class="num" style="background:#2563eb">3</span>包依赖</a>
-    <a href="#ch4"><span class="num" style="background:#10b981">4</span>定义 Skill</a>
-    <a href="#ch5"><span class="num" style="background:#059669">5</span>步骤结构</a>
-    <a href="#ch6"><span class="num" style="background:#8b5cf6">6</span>调度图</a>
-    <a href="#ch7"><span class="num" style="background:#d946ef">7</span>三种节点</a>
-    <a href="#ch8"><span class="num" style="background:#f59e0b">8</span>配置 + CLI</a>
-    <a href="#ch9"><span class="num" style="background:#f43f5e">9</span>构建流水线</a>
-    <a href="#ch10"><span class="num" style="background:#14b8a6">10</span>开发循环</a>
+</section>
+
+<section class="chapter">
+  <h2><span class="badge">3</span>安装</h2>
+  <div class="code-block">
+    <pre>npm install -D @co-kyo/skillpack @co-kyo/skillpack-types</pre>
   </div>
-</nav>
-
-<main>
-
-<div class="hero">
-  <h2>📖 skillpack monorepo 完全教学</h2>
-  <p>
-    这是一份面向初学者的教程。你不需要先了解任何关于 skillpack 的知识。
-    我们会从项目长什么样开始，一点点深入到每一步是怎么工作的。
-    每章都有"小白须知"帮你抓住重点。
-  </p>
-</div>
-
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch1">
-<div class="ch-head">
-  <span class="badge" style="background:#6366f1">1</span>
-  <h3>欢迎 — 这个项目是做什么的？</h3>
-</div>
-
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>这个项目不是"产品"，而是一套<strong>开发工具</strong>。它的目标只有一个：把 TypeScript 代码变成 Markdown 文档。</p>
-</div>
-
-<div class="ch-body">
-  <p><strong>skillpack</strong> 是一个"打包工具"——但它打包的不是 JavaScript，而是 LLM Skill。</p>
-  <p>所谓"Skill"，就是一组步骤（step），每个步骤告诉 LLM 要做什么事。比如一个"前端技术调研"Skill 包含：</p>
-  <ul>
-    <li><strong>Step 00</strong>：主题解析</li>
-    <li><strong>Step 01</strong>：多维度探索（并行 3 个 Agent）</li>
-    <li><strong>Step 02</strong>：分类整理</li>
-    <li><strong>Step 03</strong>：深度研究</li>
-    <li><strong>Step 04</strong>：报告生成</li>
-  </ul>
-  <p>你用 <strong>TypeScript</strong> 定义这些步骤的"蓝图"（steps、依赖关系、每个步骤内部的调度图），然后 skillpack 帮你：校验、排序、生成最终的 <strong>Markdown 文件</strong>。</p>
-  <p>整个 monorepo 就是这套工具的源码 + 一个示例 Skill。</p>
-</div>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>skillpack = 把 TS 定义变成 MD 文档的打包器</li>
-    <li>monorepo = 工具源码（packages/）+ 示例（demos/）</li>
-    <li>你读这份教程的目的：理解这个工具怎么用、怎么改</li>
-  </ul>
-</div>
 </section>
 
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch2">
-<div class="ch-head">
-  <span class="badge" style="background:#0ea5e9">2</span>
-  <h3>项目总览 — 一眼看懂目录结构</h3>
-</div>
+<section class="chapter">
+  <h2><span class="badge">4</span>定义 Skill</h2>
+  <p>最简单的入口是 <code>createSkill()</code>，它接收 <code>SkillDefinition</code> 并返回同一对象。</p>
+  <div class="code-block">
+    <div class="file-path">skill.ts</div>
+    <pre>
+import { createSkill, task, seq, parallel, mapNode } from '@co-kyo/skillpack-types';
 
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>整个项目只有 3 个顶层目录。记住：<strong>框架代码在 packages/，示例在 demos/，产物在 dist/</strong>。改代码永远在 packages/ 和 demos/ 里改。</p>
-</div>
+const stepParse = {
+  id: 'topic-parse',
+  title: '主题解析',
+  description: '解析调研主题，生成调研框架',
+  dependsOn: [],
+  graph: task({
+    id: 'parse',
+    label: '主题解析',
+    type: 'agent',
+    body: '解析用户输入的调研主题，生成 research-brief.json',
+  }),
+  reads: [],
+  writes: [{ path: '{workDir}/.meta/research-brief.json', description: '调研框架' }],
+};
 
-<div class="ch-body">
-  <p>打开项目根目录，你看到的是这样的结构：</p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">skillpack/</div>
-  <pre>
-<span class="com"># ─ 根配置 ─</span>
-.gitignore
-package.json              <span class="com"># npm workspaces 声明 + 统一脚本</span>
-tsconfig.json             <span class="com"># tsc -b 项目引用编排</span>
-README.md
-
-<span class="com"># ─ 框架（4 个包）─</span>
-packages/
-  skillpack-types/        <span class="com">#   类型 + 辅助函数（叶子节点）</span>
-  skillpack-common/       <span class="com">#   校验 + 拓扑排序 + 图遍历</span>
-  skillpack-build/        <span class="com">#   构建器 + CLI 入口</span>
-  skillpack-validate/     <span class="com">#   独立校验 CLI</span>
-
-<span class="com"># ─ 示例 ─</span>
-demos/
-  skillpack.config.ts     <span class="com">#   配置（声明 skill 路径 + 输出目录）</span>
-  skill.ts                <span class="com">#   Skill 定义（5 个步骤）</span>
-
-<span class="com"># ─ 产物（自动生成，不提交）─</span>
-dist/                     <span class="com"># SKILL.md + processes/</span>
-
-<span class="com"># ─ 文档 ─</span>
-docs/                     <span class="com"># 架构图 + 你在看的这个页面</span></pre>
-</div>
-
-<div class="ch-body">
-  <p>下面这张图用颜色区分了三层：<strong>框架层</strong>（蓝色系）、<strong>示例层</strong>（黄色/绿色）、<strong>输出层</strong>（红色）。箭头表示"谁用谁"。</p>
-</div>
-
-<div class="svg-box">
-  <object data="svg/01-birdseye.svg" type="image/svg+xml" style="min-height:380px;">
-    <img src="svg/01-birdseye.svg" alt="全局鸟瞰">
-  </object>
-</div>
-
-<div class="grid-2">
-  <div class="card"><strong>📦 packages/</strong><span>4 个框架包，编译后生成 .js 给 demo 用。它们之间有严格的依赖顺序。</span></div>
-  <div class="card"><strong>🎯 demos/</strong><span>示例项目，一套配置（config）+ 一套定义（skill）。可以看成"用户怎么用 skillpack"。</span></div>
-  <div class="card"><strong>📄 dist/</strong><span>构建产物。每次 npm run demo 都会重新生成。gitignored，从不手动修改。</span></div>
-  <div class="card"><strong>🔗 关系</strong><span>config 从 build 包 import defineConfig，CLI 读 config → 加载 skill → 调用 buildPipeline → 输出到 dist</span></div>
-</div>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>packages/ = 工具箱，demos/ = 使用示范，dist/ = 成果物</li>
-    <li>所有源代码都在 packages/*/src/ 里，每一个包只导出一个入口（index.ts）</li>
-  </ul>
-</div>
-</section>
-
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch3">
-<div class="ch-head">
-  <span class="badge" style="background:#2563eb">3</span>
-  <h3>包依赖 — 四个库谁依赖谁？</h3>
-</div>
-
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>4 个包的关系是单向的：<strong>types → common → {build, validate}</strong>。不能反向依赖。这是整个项目的"宪法"。</p>
-</div>
-
-<div class="ch-body">
-  <p>每个包都有自己的 <code>package.json</code> 和 <code>tsconfig.json</code>。它们通过两种方式连接：</p>
-  <p><strong>① tsconfig project references</strong>（构建时）：<code>tsc -b</code> 按引用顺序编译，保证 types 先编译完，common 才能编译，以此类推。</p>
-  <p><strong>② npm workspace dependencies</strong>（运行时）：每个包的 <code>package.json</code> 声明 <code>"@co-kyo/skillpack-types": "*"</code>，npm workspaces 自动把包链接到 node_modules。</p>
-</div>
-
-<div class="svg-box">
-  <object data="svg/02-deps.svg" type="image/svg+xml" style="min-height:380px;">
-    <img src="svg/02-deps.svg" alt="依赖拓扑">
-  </object>
-</div>
-
-<div class="grid-2">
-  <div class="card"><strong>📐 skillpack-types</strong><span>纯类型 + 纯函数。没有 node_modules 依赖，不依赖任何其他包。</span></div>
-  <div class="card"><strong>⚙️ skillpack-common</strong><span>依赖 types。实现校验逻辑、Kahn 拓扑排序、图遍历。</span></div>
-  <div class="card"><strong>🏗 skillpack-build</strong><span>依赖 types + common。打包器 + Markdown 渲染器 + CLI 入口。</span></div>
-  <div class="card"><strong>🔍 skillpack-validate</strong><span>依赖 types + common。独立的校验 CLI。</span></div>
-</div>
-
-<div class="ch-body">
-  <p>构建顺序：</p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">tsc -b 执行顺序（tsconfig references 决定）</div>
-  <pre>
-Phase 1: skillpack-types        <span class="com">// 无依赖，先编译</span>
-Phase 2: skillpack-common       <span class="com">// 等 types 编译完</span>
-Phase 3: skillpack-build        <span class="com">// 等 common 编译完</span>
-         skillpack-validate     <span class="com">// 和 build 并行（都只依赖 common）</span>
-<span class="com">（注意：demos/ 不在 tsconfig references 中 — 它用 tsx 直接跑源码）</span></pre>
-</div>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>types 是地基，common 是承重墙，build 和 validate 是一楼的两个房间</li>
-    <li>改 types → common 和 build 都需要 rebuild；改 demos/ → 零构建，直接跑</li>
-  </ul>
-</div>
-</section>
-
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch4">
-<div class="ch-head">
-  <span class="badge" style="background:#10b981">4</span>
-  <h3>定义 Skill — 从 createSkill 开始</h3>
-</div>
-
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>如果你用过 Vue 3，<code>createSkill</code> 就像 <code>createApp</code>：你传一个对象进去，得到一个完整的 Skill 定义出来。整个文件只 export 一个东西。</p>
-</div>
-
-<div class="ch-body">
-  <p>示例项目里的 <code>skill.ts</code> 是 Skill 定义的"样板房"。它演示了所有功能：</p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">demos/skill.ts</div>
-  <pre>
-<span class="kw">import</span> { createSkill, agent, batch, mapWork, edge }
-  <span class="kw">from</span> <span class="str">'skillpack-types'</span>;
-
-<span class="com">// ... 5 个 step 定义 ...</span>
-
-<span class="kw">export</span> <span class="kw">const</span> skill = createSkill({
-  name: <span class="str">'tech-research'</span>,
-  title: <span class="str">'前端技术调研'</span>,
-  description: <span class="str">'针对一个前端技术主题...'</span>,
-  steps: [
-    stepParse,       <span class="com">// 主题解析（单 Agent）</span>
-    stepExplore,     <span class="com">// 多维度探索（Batch + 收敛 + 门禁）</span>
-    stepOrganize,    <span class="com">// 分类整理（两个 Agent 串行）</span>
-    stepDeepDive,    <span class="com">// 深度研究（两个 Agent DAG）</span>
-    stepReport,      <span class="com">// 报告生成（Map）</span>
-  ],
+export const skill = createSkill({
+  name: 'tech-research',
+  title: '前端技术调研',
+  description: '从探索到产出的完整调研流程',
+  steps: [stepParse],
 });</pre>
-</div>
-
-<div class="ch-body">
-  <p>下面这张图展示了 <code>createSkill</code> 的完整结构——从外层的 wrapper，到中间每个步骤的字段，再到内部调度图：</p>
-</div>
-
-<div class="svg-box">
-  <object data="svg/05-skill-anatomy.svg" type="image/svg+xml" style="min-height:400px;">
-    <img src="svg/05-skill-anatomy.svg" alt="Skill Anatomy">
-  </object>
-</div>
-
-<div class="grid-2">
-  <div class="card"><strong>📦 createSkill wrapper</strong><span>接收 { name, title, description, steps[] }，返回同一个对象。纯类型辅助，零运行时开销。</span></div>
-  <div class="card"><strong>📋 steps 数组</strong><span>StepDefinition 对象的数组。顺序不重要——真正的顺序由 dependsOn 字段 + Kahn 排序决定。</span></div>
-  <div class="card"><strong>🗺 每个 step 里的 schedule</strong><span>一个调度图（nodes + edges + entry），描述这个步骤内部 Agent 们怎么配合。</span></div>
-  <div class="card"><strong>🔔 生命周期钩子</strong><span>barrier（检查点）/ reuse（复用）/ degrade（降级）——不是每个 step 都需要。</span></div>
-</div>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>一个 skill.ts = 一个 export（createSkill 的结果）</li>
-    <li>steps 数组里的顺序不重要，重要的是每个 step 的 dependsOn 字段</li>
-  </ul>
-</div>
+  </div>
+  <div class="tip">
+    <p>如果你使用 SourceModel 工作流，可以改用 <code>createSkillFromModel(model)</code>，入口在 <code>@co-kyo/skillpack</code>。</p>
+  </div>
 </section>
 
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch5">
-<div class="ch-head">
-  <span class="badge" style="background:#059669">5</span>
-  <h3>步骤结构 — StepDefinition 的 11 个字段</h3>
-</div>
-
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>每个 StepDefinition 就像一张"设计图纸"——它完整描述了 LLM 在这一步要读什么文件、做什么事、产出什么结果、以及异常怎么办。</p>
-</div>
-
-<div class="ch-body">
-  <p>以 demo skill 里的第三步"深度研究"为例：</p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">demos/skill.ts — stepDeepDive</div>
-  <pre>
-<span class="kw">const</span> stepDeepDive: StepDefinition = {
-  <span class="prop">id</span>:          <span class="str">'deep-dive'</span>,
-  <span class="prop">title</span>:       <span class="str">'深度研究'</span>,
-  <span class="prop">description</span>: <span class="str">'核心概念研究 → 实践模式研究'</span>,
-  <span class="prop">dependsOn</span>:   [<span class="str">'organize'</span>],
-  <span class="prop">schedule</span>:    { <span class="com">/* 见下章 */</span> },
-  <span class="prop">reads</span>:  [{ <span class="prop">path</span>: <span class="str">'{workDir}/.meta/organized.json'</span>, <span class="prop">required</span>: <span class="kw">true</span> }],
-  <span class="prop">writes</span>: [{ <span class="prop">path</span>: <span class="str">'{workDir}/.meta/dive-concepts.json'</span> }],
-  <span class="prop">reuse</span>: [{ <span class="prop">checkFile</span>: <span class="str">'{workDir}/.meta/dive-concepts.json'</span>, ... }],
-  <span class="prop">degrade</span>: { <span class="prop">maxRetries</span>: <span class="num">2</span>, <span class="prop">onDegrade</span>: <span class="str">'continue'</span> },
-  <span class="prop">barrier</span>: { <span class="prop">checkItems</span>: [<span class="str">'核心概念发现数'</span>, ...], ... },
-};</pre>
-</div>
-
-<p><strong>字段速查表：</strong></p>
-<table class="field-table">
-  <tr><th>字段</th><th>类型</th><th>必需?</th><th>说明</th></tr>
-  <tr><td>id</td><td>string</td><td><span class="req">必</span></td><td>步骤唯一标识，kebab-case</td></tr>
-  <tr><td>title</td><td>string</td><td><span class="req">必</span></td><td>人类可读的标题</td></tr>
-  <tr><td>description</td><td>string</td><td><span class="req">必</span></td><td>一句话描述做什么</td></tr>
-  <tr><td>dependsOn</td><td>string[]</td><td><span class="req">必</span></td><td>前置步骤的 id 列表</td></tr>
-  <tr><td>schedule</td><td>ScheduleGraph</td><td><span class="req">必</span></td><td>步骤内部的调度图（下一章）</td></tr>
-  <tr><td>reads</td><td>FileRef[]</td><td><span class="opt">选</span></td><td>步骤需要读哪些文件</td></tr>
-  <tr><td>writes</td><td>FileRef[]</td><td><span class="req">必</span></td><td>步骤产出哪些文件</td></tr>
-  <tr><td>barrier</td><td>BarrierDef</td><td><span class="opt">选</span></td><td>检查点 — 执行到这一步会暂停让用户确认</td></tr>
-  <tr><td>reuse</td><td>ReuseRule[]</td><td><span class="opt">选</span></td><td>增量复用 — 如果文件已存在就跳过</td></tr>
-  <tr><td>degrade</td><td>DegradeProtocol</td><td><span class="opt">选</span></td><td>降级 — 失败后重试或降级处理</td></tr>
-  <tr><td>plugins</td><td>string[]</td><td><span class="opt">选</span></td><td>条件性加载的插件</td></tr>
-</table>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>id + dependsOn + schedule + writes 是必须的，其余按需使用</li>
-    <li>dependsOn 决定了步骤的先后顺序（构建时用 Kahn 算法排序）</li>
-  </ul>
-</div>
+<section class="chapter">
+  <h2><span class="badge">5</span>StepDefinition 字段</h2>
+  <div class="code-block">
+    <pre>
+interface StepDefinition {
+  id: string;
+  title: string;
+  description: string;
+  dependsOn: string[];
+  graph: ControlNode;
+  reads: FileRef[];
+  writes: FileRef[];
+  barrier?: BarrierDef;
+  reuse?: ReuseRule[];
+  degrade?: DegradeProtocol;
+  body?: string;
+  plugins?: string[];
+}</pre>
+  </div>
+  <p><code>graph</code> 是当前版本的核心字段，替代旧版的 <code>schedule</code>。它直接使用递归控制节点，不再使用扁平 nodes/edges/entry。</p>
 </section>
 
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch6">
-<div class="ch-head">
-  <span class="badge" style="background:#8b5cf6">6</span>
-  <h3>调度图 — 步骤内部的"工作流引擎"</h3>
-</div>
+<section class="chapter">
+  <h2><span class="badge">6</span>控制节点</h2>
+  <div class="grid">
+    <div class="card"><strong>task()</strong><span>单个任务，type 可为 agent / script / human / subflow</span></div>
+    <div class="card"><strong>seq()</strong><span>顺序执行一组节点</span></div>
+    <div class="card"><strong>parallel()</strong><span>并行分支，支持 converge 和 gate</span></div>
+    <div class="card"><strong>mapNode()</strong><span>从数据源逐项执行同一 worker，支持 maxConcurrency</span></div>
+    <div class="card"><strong>branch()</strong><span>条件分支</span></div>
+    <div class="card"><strong>loop()</strong><span>循环执行，支持 maxIterations</span></div>
+  </div>
 
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>如果说 <code>dependsOn</code> 是"步骤之间怎么串"，那 <code>schedule</code> 就是"一个步骤内部怎么干"。它用图（graph）来描述工作流：有节点（Agent），有边（谁先谁后）。</p>
-</div>
+  <h3>并行 + 收敛 + 门禁</h3>
+  <div class="code-block">
+    <div class="file-path">parallel()</div>
+    <pre>
+graph: parallel('explore-batch', '多维度并行探索', [
+  task({
+    id: 'explore-docs',
+    label: 'explore-docs',
+    type: 'agent',
+    body: '阅读 research-brief.json，产出 docs-findings.json',
+  }),
+  task({
+    id: 'explore-practice',
+    label: 'explore-practice',
+    type: 'agent',
+    body: '阅读 research-brief.json，产出 practice-findings.json',
+  }),
+], {
+  converge: {
+    id: 'explore-converge',
+    label: 'explore-integrator',
+    type: 'agent',
+    body: '合并三个维度的发现，产出 consolidated-findings.json',
+  },
+  gate: {
+    rule: '3 agents completed or at most 1 degraded',
+    onPass: 'converge',
+    onFail: 'degrade',
+  },
+})</pre>
+  </div>
 
-<div class="ch-body">
-  <p>调度图的核心只有 3 个概念：</p>
-  <p><strong>节点（nodes）</strong>：三种类型——<code>agent</code>（单兵）、<code>batch</code>（组团）、<code>map</code>（流水线）。</p>
-  <p><strong>边（edges）</strong>：有向连接，<code>from → to</code>，可附带条件（condition）实现条件路由。</p>
-  <p><strong>入口（entry）</strong>：从哪个节点开始执行。</p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">ScheduleGraph 的结构</div>
-  <pre>
-{
-  <span class="prop">entry</span>: <span class="str">'dive-concepts'</span>,           <span class="com">// 从这里开始</span>
-  <span class="prop">nodes</span>: [
-    { <span class="prop">kind</span>: <span class="str">'agent'</span>, <span class="prop">id</span>: <span class="str">'dive-concepts'</span>, <span class="prop">role</span>: <span class="str">'核心概念研究员'</span>, ... },
-    { <span class="prop">kind</span>: <span class="str">'agent'</span>, <span class="prop">id</span>: <span class="str">'dive-patterns'</span>, <span class="prop">role</span>: <span class="str">'实践模式研究员'</span>, ... },
-  ],
-  <span class="prop">edges</span>: [
-    { <span class="prop">from</span>: <span class="str">'dive-concepts'</span>, <span class="prop">to</span>: <span class="str">'dive-patterns'</span> },
-  ],
-}</pre>
-</div>
-
-<div class="ch-body">
-  <p>下图是三种节点类型的完整参考，包括每个字段的含义和实际代码示例：</p>
-</div>
-
-<div class="svg-box">
-  <object data="svg/04-nodes.svg" type="image/svg+xml" style="min-height:400px;">
-    <img src="svg/04-nodes.svg" alt="Node Types">
-  </object>
-</div>
-
-<div class="grid-2">
-  <div class="card"><strong>🤖 Agent</strong><span>最简单的节点。一个 Agent + 一个 task 提示词。适合独立任务。</span></div>
-  <div class="card"><strong>🌲 Batch</strong><span>并行 fan-out：多个 branches 同时跑，可选的 converge 整合结果，可选的 gate 质量门禁。</span></div>
-  <div class="card"><strong>🔄 Map</strong><span>滚动窗口：从数据源（itemFrom）取条目，对每条执行同一个 worker。maxConcurrency 控制并发。</span></div>
-  <div class="card"><strong>🧩 组合模式</strong><span>串行链（agent→edge→agent）、扇出+收敛、滚动窗口、带门禁的批量——4 种常见组合。</span></div>
-</div>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>三种节点 = Agent（单兵）/ Batch（组团）/ Map（流水线），覆盖所有调度模式</li>
-    <li>边可以加 condition（条件路由），比如"如果质量检测不通过就跳到降级处理"</li>
-  </ul>
-</div>
+  <h3>Map / 滚动窗口</h3>
+  <div class="code-block">
+    <div class="file-path">mapNode()</div>
+    <pre>
+graph: mapNode(
+  'report-map',
+  '章节报告生成',
+  '{workDir}/.meta/organized.json#categories',
+  task({
+    id: 'report-worker',
+    label: 'report-{chapter}',
+    type: 'agent',
+    body: '撰写报告章节 {chapter}，产出 {workDir}/.meta/report/{chapter}.md',
+  }),
+  3,
+)</pre>
+  </div>
 </section>
 
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch7">
-<div class="ch-head">
-  <span class="badge" style="background:#d946ef">7</span>
-  <h3>三种节点 — 从示例看懂怎么用</h3>
-</div>
+<section class="chapter">
+  <h2><span class="badge">7</span>配置与 CLI</h2>
+  <div class="code-block">
+    <div class="file-path">skillpack.config.ts</div>
+    <pre>
+import { defineConfig } from '@co-kyo/skillpack';
 
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>这一章从 demo skill 里取出三个真实的例子，分别展示 <code>agent</code>、<code>batch</code>、<code>map</code> 在实际项目中长什么样。</p>
-</div>
-
-<div class="ch-body">
-  <p><strong>示例 1：单 Agent（Step 00）</strong></p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">stepParse 的调度图 — 最简单的形式</div>
-  <pre>
-<span class="prop">schedule</span>: {
-  <span class="prop">nodes</span>: [ agent({ <span class="prop">id</span>: <span class="str">'parse'</span>, <span class="prop">label</span>: <span class="str">'主题解析'</span>, <span class="prop">role</span>: <span class="str">'调研框架构建者'</span>, <span class="prop">task</span>: <span class="str">`...`</span> }) ],
-  <span class="prop">edges</span>: [],
-  <span class="prop">entry</span>: <span class="str">'parse'</span>,
-}</pre>
-</div>
-
-<div class="ch-body">
-  <p>就是单个节点，没有边。适合简单的"给一个任务让 LLM 做"。</p>
-  <p style="margin-top:20px"><strong>示例 2：Batch + 收敛 + 门禁（Step 01）</strong></p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">stepExplore 的调度图 — 最复杂的例子</div>
-  <pre>
-<span class="prop">schedule</span>: {
-  <span class="prop">nodes</span>: [
-    batch(<span class="str">'explore-batch'</span>, <span class="str">'多维度并行探索'</span>, [
-      agent({ <span class="prop">id</span>: <span class="str">'explore-docs'</span>, <span class="prop">role</span>: <span class="str">'文档分析师'</span>, ... }),
-      agent({ <span class="prop">id</span>: <span class="str">'explore-practice'</span>, <span class="prop">role</span>: <span class="str">'实践分析师'</span>, ... }),
-      agent({ <span class="prop">id</span>: <span class="str">'explore-ecosystem'</span>, <span class="prop">role</span>: <span class="str">'生态分析师'</span>, ... }),
-    ], {
-      <span class="prop">converge</span>: agent({ <span class="prop">id</span>: <span class="str">'explore-converge'</span>, <span class="prop">role</span>: <span class="str">'收敛者'</span>, ... }),
-      <span class="prop">gate</span>: {
-        <span class="prop">rule</span>: <span class="str">'3 agents completed or at most 1 degraded'</span>,
-        <span class="prop">onPass</span>: <span class="str">'converge'</span>,   <span class="com">// 门禁通过 → 启动收敛 Agent</span>
-        <span class="prop">onFail</span>: <span class="str">'degrade'</span>,     <span class="com">// 不通过 → 降级</span>
-      },
-    }),
-  ],
-}</pre>
-</div>
-
-<div class="ch-body">
-  <p>3 个 Agent 并行调研文档、实践、生态。全部完成后（或最多 1 个失败），收敛者合并结果。门禁规则由你定义。</p>
-  <p style="margin-top:20px"><strong>示例 3：Map — 滚动窗口（Step 04）</strong></p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">stepReport 的调度图 — 流水线模式</div>
-  <pre>
-<span class="prop">schedule</span>: {
-  <span class="prop">nodes</span>: [
-    mapWork(<span class="str">'report-map'</span>, <span class="str">'章节报告生成'</span>,
-      <span class="str">'{workDir}/.meta/organized.json#categories'</span>,  <span class="com">// 数据来源</span>
-      agent({ <span class="prop">id</span>: <span class="str">'report-worker'</span>, <span class="prop">role</span>: <span class="str">'报告撰写员'</span>, ... }),
-      <span class="num">3</span>  <span class="com">// 最大并发槽位</span>
-    ),
-  ],
-}</pre>
-</div>
-
-<div class="ch-body">
-  <p>从 organized.json 里取出 categories 数组，对每个 category 启动一个 Agent 写报告。最多 3 个并发。</p>
-</div>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>Agent 最简单，Batch 最强大（并行 + 收敛 + 门禁），Map 适合数据驱动</li>
-    <li>写 skill 时优先用 Agent 组合 + 边，不够用了再上 Batch/Map</li>
-  </ul>
-</div>
-</section>
-
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch8">
-<div class="ch-head">
-  <span class="badge" style="background:#f59e0b">8</span>
-  <h3>配置 + CLI — 从文件到命令行的旅程</h3>
-</div>
-
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>写好了 skill.ts，怎么把它变成最终的 Markdown？这就是 <code>skillpack.config.ts</code> 和 CLI 的工作。</p>
-</div>
-
-<div class="ch-body">
-  <p>配置文件和 Vue 的 <code>vite.config.ts</code> 类似——它声明"我用哪个 Skill 文件"和"输出到哪里"：</p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">demos/skillpack.config.ts</div>
-  <pre>
-<span class="kw">import</span> { defineConfig } <span class="kw">from</span> <span class="str">'skillpack-build'</span>;
-
-<span class="kw">export default</span> defineConfig({
-  <span class="prop">skill</span>: <span class="str">'./skill.ts'</span>,      <span class="com">// ← 参数链接到 skill 定义</span>
-  <span class="prop">outputDir</span>: <span class="str">'../dist'</span>,    <span class="com">// ← 产物输出到根目录 dist/</span>
+export default defineConfig({
+  skill: './skill.ts',
+  outputDir: 'dist/skill',
 });</pre>
-</div>
-
-<div class="ch-body">
-  <p>CLI（<code>cli.ts</code>）读取这个配置，按以下步骤执行：</p>
-</div>
-
-<div class="code-block">
-  <div class="file-path">packages/skillpack-build/src/bin/cli.ts — 流程</div>
-  <pre>
-<span class="num">1.</span> 解析命令行参数
-   <span class="com">// skillpack build skillpack.config.ts</span>
-
-<span class="num">2.</span> 读取 skillpack.config.ts
-   <span class="com">// → { skill: './skill.ts', outputDir: '../dist' }</span>
-
-<span class="num">3.</span> 解析 skill 路径并动态 import
-   <span class="com">// → resolve('./skill.ts') → import → { name, steps }</span>
-
-<span class="num">4.</span> 合并 meta（config 可覆盖 skill 的 name/description）
-
-<span class="num">5.</span> 调用 buildPipeline(steps, outputDir, meta)
-   <span class="com">// → 校验 → 拓扑排序 → 渲染 → 写文件</span></pre>
-</div>
-
-<div class="ch-body">
-  <p>CLI 的完整调用链：</p>
-</div>
-
-<div class="svg-box">
-  <object data="svg/03-pipeline.svg" type="image/svg+xml" style="min-height:360px;">
-    <img src="svg/03-pipeline.svg" alt="Build Pipeline">
-  </object>
-</div>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>你只写两个文件：skillpack.config.ts（配置） + skill.ts（定义）</li>
-    <li>CLI 自动串联一切：读配置 → 加载 skill → 构建 → 输出</li>
-    <li>CLI 入口：<code>tsx packages/skillpack-build/src/bin/cli.ts build skillpack.config.ts</code></li>
-  </ul>
-</div>
+  </div>
+  <div class="code-block">
+    <pre>npx skillpack build skillpack.config.ts</pre>
+  </div>
+  <p>CLI 会读取配置、加载 skill、调用 <code>buildPipeline()</code>，并生成 <code>SKILL.md</code> 与 <code>processes/*.md</code>。</p>
 </section>
 
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch9">
-<div class="ch-head">
-  <span class="badge" style="background:#f43f5e">9</span>
-  <h3>构建流水线 — 三阶段详解</h3>
-</div>
-
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>buildPipeline 是 skillpack 的"发动机"。它分三个阶段，像工厂流水线一样：先检查原料（校验），再排工序（排序），最后包装出厂（渲染）。</p>
-</div>
-
-<div class="ch-body">
-  <p><strong>第一阶段：校验（Validate）</strong></p>
-  <p>三步检查，任何一步出错就停止：</p>
-</div>
-
-<div class="code-block">
-  <pre>
-<span class="num">1.</span> validateStep(step)           <span class="com">// 每个步骤字段是否完整</span>
-   <span class="com">// - id / title / description 非空</span>
-   <span class="com">// - schedule 有节点且 entry 存在</span>
-   <span class="com">// - writes 非空</span>
-   <span class="com">// - barrier 有 clarifyPrompt</span>
-
-<span class="num">2.</span> validateDependencyRefs(steps) <span class="com">// dependsOn 是否指向真实 step id</span>
-   <span class="com">// 如果 stepB.dependsOn 写了 "stepC" 但不存在 → 报错</span>
-
-<span class="num">3.</span> validateBarrierContinuity(steps) <span class="com">// barrier 连续性</span>
-   <span class="com">// 最后一个 barrier 之前的所有步骤都必须有 barrier</span></pre>
-</div>
-
-<div class="ch-body">
-  <p><strong>第二阶段：拓扑排序（Resolve）</strong></p>
-  <p>核心算法：<strong>Kahn 算法</strong>。思路很简单：</p>
+<section class="chapter">
+  <h2><span class="badge">8</span>构建流程</h2>
   <ul>
-    <li>找到所有"没有前置依赖"的步骤（入度为 0）→ 排在最前面</li>
-    <li>它们排完后，检查哪些步骤的依赖已经全部排完 → 再排它们</li>
-    <li>重复直到所有步骤排完</li>
-    <li>如果还有步骤没排但已经没有入度为 0 的了 → 循环依赖错误</li>
+    <li>Validate：校验 StepDefinition 与依赖引用。</li>
+    <li>Resolve：根据 dependsOn 做拓扑排序，解析 {{step:xxx}} 引用。</li>
+    <li>Render：渲染 SKILL.md、processes、align-report 与产物清单。</li>
   </ul>
-  <p>排序完为每个步骤分配 <code>seq</code> 编号（00, 01, 02...），同时解析构建变量 <code>{{stepSeq}}</code> → <code>"00"</code>、<code>{{stepId}}</code> → <code>"topic-parse"</code>。</p>
-  <p style="margin-top:20px"><strong>第三阶段：渲染（Render）</strong></p>
-  <ul>
-    <li>对每个步骤调用 <code>renderStep(step)</code> → 生成 Markdown → 写入 <code>dist/processes/{seq}-{id}.md</code></li>
-    <li>调用 <code>renderSkillMd(pipeline, meta)</code> → 生成 <code>dist/SKILL.md</code></li>
-    <li>renderStep 内部会遍历步骤的 schedule 图，根据节点类型（agent/batch/map）调用不同的渲染器</li>
-  </ul>
-</div>
-
-<div class="code-block">
-  <div class="file-path">构建结果：5 个步骤的拓扑顺序</div>
-  <pre>
-00: topic-parse        <span class="com">// 无依赖 → 最先</span>
-01: multi-dim-explore  <span class="com">// 依赖 topic-parse</span>
-02: organize           <span class="com">// 依赖 multi-dim-explore</span>
-03: deep-dive          <span class="com">// 依赖 organize</span>
-04: report             <span class="com">// 依赖 deep-dive → 最后</span></pre>
-</div>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>校验保证你不会产出错误文件</li>
-    <li>Kahn 排序保证步骤永远按正确顺序执行（即使你写错了 steps 数组顺序）</li>
-    <li>渲染把 TypeScript 对象变成可读的 Markdown 文档</li>
-  </ul>
-</div>
 </section>
 
-<!-- ════════════════════════════════════════════════ -->
-<section class="chapter" id="ch10">
-<div class="ch-head">
-  <span class="badge" style="background:#14b8a6">10</span>
-  <h3>开发循环 — 怎么改代码、怎么跑</h3>
-</div>
-
-<div class="tip">
-  <div class="label">小白须知</div>
-  <p>日常开发有 3 种场景，对应 3 种不同长度的循环。记住：<strong>改 skill 不用构建，改框架需要构建</strong>。</p>
-</div>
-
-<div class="svg-box">
-  <object data="svg/06-dev-loop.svg" type="image/svg+xml" style="min-height:400px;">
-    <img src="svg/06-dev-loop.svg" alt="Dev Loop">
-  </object>
-</div>
-
-<div class="ch-body">
-  <p><strong>Loop A — 改框架代码（最慢）</strong></p>
-  <p>修改 <code>packages/*/src/</code> 下的源码后，需要：</p>
-</div>
-
-<div class="code-block">
-  <pre>
-npm run build    <span class="com">// tsc -b 重新编译框架包（增量，只重编改了的包）</span>
-npm run typecheck <span class="com">// 可选，快速类型检查（tsc -b --noEmit）</span>
-npm run demo     <span class="com">// 重新生成 dist/</span></pre>
-</div>
-
-<div class="ch-body">
-  <p><strong>Loop B — 改 Skill 定义（最快，零构建）</strong></p>
-  <p>修改 <code>demos/skill.ts</code> 或 <code>demos/skillpack.config.ts</code> 后：</p>
-</div>
-
-<div class="code-block">
-  <pre>
-npm run demo     <span class="com">// 够了！tsx 直接加载 .ts 源文件，无需编译</span></pre>
-</div>
-
-<div class="ch-body">
-  <p>注意：框架包至少需要构建过一次（<code>npm run build</code>），否则 tsx 找不到编译后的 <code>dist/*.js</code>。</p>
-  <p><strong>Loop C — 全量重建</strong></p>
-</div>
-
-<div class="code-block">
-  <pre>
-npm run clean    <span class="com">// 删除所有 dist/ + tsbuildinfo</span>
-npm run build    <span class="com">// 完整编译（从头开始）</span>
-npm run demo     <span class="com">// 验证</span></pre>
-</div>
-
-<div class="ch-body"><p><strong>命令速查：</strong></p></div>
-
-<table class="field-table">
-  <tr><th>命令</th><th>实际执行</th><th>什么时候用</th></tr>
-  <tr><td>npm run build</td><td>tsc -b</td><td>改完 packages/*/src/ 后</td></tr>
-  <tr><td>npm run demo</td><td>tsx CLI → buildPipeline → dist/</td><td>查看构建结果</td></tr>
-  <tr><td>npm run typecheck</td><td>tsc -b --noEmit</td><td>快速检查类型错误</td></tr>
-  <tr><td>npm run clean</td><td>rm -rf packages/*/dist dist</td><td>重建前清理</td></tr>
-</table>
-
-<div class="takeaway">
-  <div class="label">记住</div>
-  <ul>
-    <li>Loop B 是你最常用的——改 skill.ts → npm run demo，秒级反馈</li>
-    <li>只有改框架包（packages/）才需要 npm run build</li>
-    <li>npm run clean + build + demo 是最稳妥的"从头来一遍"</li>
-  </ul>
-</div>
+<section class="chapter">
+  <h2><span class="badge">9</span>Release</h2>
+  <p>公开仓库推送 <code>v*</code> tag 后，GitHub Actions 会构建 npm 包并创建 GitHub Release。</p>
+  <p>也可以手动运行 <code>Release skillpack</code> workflow，使用 <code>source.zip</code> 和 npm tarball 作为发布产物。</p>
 </section>
 
-<footer>
-  <p>skillpack skillpack &mdash; 完整教学 &mdash; 共 10 章 &mdash; 祝编码愉快 🚀</p>
-</footer>
-
-</main>
-
-<script>
-const sidebar = document.getElementById('sidebar');
-const menuBtn = document.getElementById('menuBtn');
-const links = document.querySelectorAll('nav a');
-const chapters = document.querySelectorAll('.chapter');
-
-menuBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('open');
-});
-
-links.forEach(a => {
-  a.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-  });
-});
-
-function updateNav() {
-  let current = '';
-  chapters.forEach(sec => {
-    const top = sec.getBoundingClientRect().top;
-    if (top < window.innerHeight * 0.4) {
-      current = sec.id;
-    }
-  });
-  links.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-  });
-}
-
-window.addEventListener('scroll', updateNav);
-window.addEventListener('load', updateNav);
-</script>
-
+</div>
 </body>
 </html>

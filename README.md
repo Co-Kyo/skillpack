@@ -59,6 +59,10 @@ npm run demo
 - 如果仓库配置了 `NPM_TOKEN` secret，自动发布到 npm。
 - 自动生成 `source.zip` 与 npm tarball，并创建 GitHub Release。
 
+## 文档
+
+- `docs/explainer.html`：基于当前 `@co-kyo/skillpack` API 的教学页。
+
 ## License
 
 MIT

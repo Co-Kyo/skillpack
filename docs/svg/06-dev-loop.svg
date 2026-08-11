@@ -91,7 +91,7 @@
 <line x1="440" y1="430" x2="440" y2="460" stroke="#4ade80" stroke-width="2" marker-end="url(#arr4)" filter="url(#sm)"/>
 <line x1="418" y1="470" x2="300" y2="470" stroke="#4ade80" stroke-width="2" marker-end="url(#arr4)" filter="url(#sm)"/>
 <path d="M300 470 C380 480 238 390 178 400" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr4)" filter="url(#sm)"/>
-<text x="180" y="512" fill="#4ade80" font-family="system-ui,sans-serif" font-size="10" font-weight="700">NO BUILD STEP &mdash; tsx loads .ts directly</text>
+<text x="180" y="512" fill="#4ade80" font-family="system-ui,sans-serif" font-size="10" font-weight="700">NO BUILD STEP &#8212; tsx loads .ts directly</text>
 <text x="180" y="528" fill="#64748b" font-family="system-ui,sans-serif" font-size="8">Framework packages must be built at least once before first run</text>
 <rect x="30" y="570" width="690" height="200" rx="10" fill="url(#laneC)" stroke="#334155" stroke-width="1" filter="url(#md)"/>
 <rect x="30" y="570" width="690" height="34" rx="10" fill="url(#headerC)"/>

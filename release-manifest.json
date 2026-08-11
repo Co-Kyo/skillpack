@@ -1,0 +1,9 @@
+{
+  "release": "0.1.0",
+  "packages": {
+    "@co-kyo/skillpack-types": "0.1.0",
+    "@co-kyo/skillpack-common": "0.1.0",
+    "@co-kyo/skillpack": "0.1.0",
+    "@co-kyo/skillpack-validate": "0.1.0"
+  }
+}

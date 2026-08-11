@@ -51,6 +51,14 @@ npm run typecheck
 npm run demo
 ```
 
+## Release
+
+推送 `v*` tag，或在 GitHub Actions 中手动运行 `Release skillpack` 工作流：
+
+- 自动构建并打包四个 npm 包。
+- 如果仓库配置了 `NPM_TOKEN` secret，自动发布到 npm。
+- 自动生成 `source.zip` 与 npm tarball，并创建 GitHub Release。
+
 ## License
 
 MIT

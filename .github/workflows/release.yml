@@ -1,0 +1,92 @@
+name: Release skillpack
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, for example v0.1.0"
+        required: false
+        default: "v0.1.0"
+
+permissions:
+  contents: write
+
+jobs:
+  publish-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - name: Resolve release tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "RELEASE_TAG=${{ inputs.tag }}" >> "$GITHUB_ENV"
+          else
+            echo "RELEASE_TAG=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Checkout release ref
+        run: |
+          git fetch --tags --force
+          git checkout "$RELEASE_TAG"
+
+      - name: Install and verify
+        run: |
+          npm ci
+          npm run build
+          npm run typecheck
+
+      - name: Publish npm packages
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "NPM_TOKEN is not configured; skipping npm publish"
+            exit 0
+          fi
+          VERSION="${RELEASE_TAG#v}"
+          for pkg in \
+            packages/skillpack-types \
+            packages/skillpack-common \
+            packages/skillpack-build \
+            packages/skillpack-validate
+          do
+            name=$(node -p "require('./$pkg/package.json').name")
+            if npm view "$name@$VERSION" --registry=https://registry.npmjs.org/ >/dev/null 2>&1; then
+              echo "exists $name@$VERSION"
+            else
+              npm publish --workspace "$pkg" --access public --registry=https://registry.npmjs.org/
+            fi
+          done
+
+      - name: Pack release artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p dist-release
+          git archive --format=zip -o dist-release/source.zip "$RELEASE_TAG"
+          for pkg in \
+            packages/skillpack-types \
+            packages/skillpack-common \
+            packages/skillpack-build \
+            packages/skillpack-validate
+          do
+            npm pack --workspace "$pkg" --pack-destination dist-release
+          done
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: |
+            dist-release/source.zip
+            dist-release/*.tgz
+          generate_release_notes: true

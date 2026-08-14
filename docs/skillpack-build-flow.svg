@@ -1,270 +1,222 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" font-family="'Segoe UI','PingFang SC','Microsoft YaHei',monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 690" width="100%" height="auto" role="img" aria-labelledby="t d">
+  <title id="t">skillpack 打包管线 · TS Step 定义 → Markdown 过程文件</title>
+  <desc id="d">左侧 demos/skill.ts 的 5 个 Step 定义(含 graph 与 dependsOn),中间 skillpack 三阶段管线(validate / resolve / render),右侧产出 Markdown 文件</desc>
+
+  <style>
+    text { font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, sans-serif; }
+    .title { font-size: 20px; font-weight: 500; fill: #1f2937; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .section { font-size: 13px; font-weight: 500; fill: #4b5563; }
+    .step-num { font-size: 10px; font-weight: 700; fill: #ffffff; }
+    .step-id { font-size: 12px; font-weight: 500; fill: #1f2937; }
+    .step-graph { font-size: 10px; fill: #6b7280; }
+    .step-body { font-size: 11px; fill: #4b5563; }
+    .phase-title { font-size: 12px; font-weight: 500; fill: #ffffff; }
+    .phase-name { font-size: 11px; font-weight: 500; fill: #1f2937; }
+    .phase-body { font-size: 11px; fill: #4b5563; }
+    .file { font-size: 11px; fill: #1f2937; }
+    .file-size { font-size: 10px; fill: #9ca3af; }
+    .code { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 10px; fill: #cbd5e1; }
+    .code-key { font-family: ui-monospace, monospace; font-size: 10px; fill: #93c5fd; }
+    .code-h { font-family: ui-monospace, monospace; font-size: 10px; fill: #c4b5fd; }
+    .code-t { font-family: ui-monospace, monospace; font-size: 10px; fill: #f0abfc; }
+    .dep-edge { font-size: 9px; font-style: italic; }
+    .note-key { font-size: 11px; font-weight: 500; fill: #633806; }
+  </style>
+
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1 L8 5 L2 9" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
-    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4A90D9"/>
+    <marker id="arr-d" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1 L8 5 L2 9" fill="none" stroke="#6b7280" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
-    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5CB85C"/>
-    </marker>
-    <linearGradient id="bgLeft" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F5F7FA"/>
-      <stop offset="100%" stop-color="#EBF0F5"/>
-    </linearGradient>
-    <linearGradient id="bgCenter" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FAFCFF"/>
-      <stop offset="100%" stop-color="#F0F4FA"/>
-    </linearGradient>
-    <linearGradient id="bgRight" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F5FFF5"/>
-      <stop offset="100%" stop-color="#EBF5EB"/>
-    </linearGradient>
-    <filter id="shadow" x="-4" y="-4" width="12" height="12">
-      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/>
-    </filter>
   </defs>
 
-  <!-- 标题 -->
-  <rect x="0" y="0" width="1280" height="60" fill="#2C3E50" rx="0"/>
-  <text x="640" y="38" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">skillpack 打包管线 —— TS Step 定义 → Markdown 过程文件</text>
+  <text x="500" y="28" text-anchor="middle" class="title">skillpack 打包管线 · TS Step → Markdown</text>
+  <text x="500" y="48" text-anchor="middle" class="subtitle">输入：demos/skill.ts · 处理：@co-kyo/skillpack · 产出：dist/skill</text>
 
-  <!-- ============================================================ -->
-  <!-- PANEL 1: 输入（开发者写的 TS 定义） -->
-  <!-- ============================================================ -->
-  <rect x="30" y="80" width="340" height="800" fill="url(#bgLeft)" rx="12" stroke="#C0D0E0" stroke-width="1.5" filter="url(#shadow)"/>
-  <rect x="30" y="80" width="340" height="36" fill="#4A6FA5" rx="12"/>
-  <rect x="30" y="104" width="340" height="12" fill="#4A6FA5"/>
-  <text x="200" y="103" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">① 输入：TS Step 定义</text>
-  <text x="200" y="130" text-anchor="middle" fill="#666" font-size="11">skill-dev-demo/entry.ts</text>
+  <text x="40" y="76" class="section">Step 1 · 输入 · TS Step 定义</text>
 
-  <!-- Step 00 定义卡片 -->
-  <rect x="45" y="148" width="310" height="125" fill="#fff" rx="8" stroke="#D0D8E0" stroke-width="1"/>
-  <rect x="45" y="148" width="310" height="24" fill="#E8F0FE" rx="8"/>
-  <rect x="45" y="166" width="310" height="6" fill="#E8F0FE"/>
-  <circle cx="58" cy="160" r="7" fill="#4A6FA5"/>
-  <text x="58" y="164" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">00</text>
-  <text x="72" y="164" fill="#333" font-size="12" font-weight="bold">intent-anchor</text>
-  <text x="280" y="164" fill="#888" font-size="10">graph: task</text>
+  <g>
+    <rect x="40" y="88" width="290" height="96" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <circle cx="60" cy="106" r="10" fill="#534ab7"/>
+    <text x="60" y="110" text-anchor="middle" class="step-num">00</text>
+    <text x="78" y="110" class="step-id">topic-parse</text>
+    <text x="270" y="110" text-anchor="end" class="step-graph">graph: task</text>
+    <line x1="60" y1="116" x2="310" y2="116" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="60" y="132" class="step-body">dependsOn: []</text>
+    <text x="60" y="148" class="step-body">graph: task({ id:'parse', … })</text>
+    <text x="60" y="164" class="step-body">writes: .meta/research-brief.json</text>
+    <text x="60" y="180" class="step-body">barrier: ✔</text>
+  </g>
 
-  <text x="55" y="188" fill="#666" font-size="10">
-    <tspan x="55" dy="0">dependsOn: []</tspan>
-    <tspan x="55" dy="16">graph: task({ ... })</tspan>
-    <tspan x="55" dy="16">writes: anchors.json</tspan>
-    <tspan x="55" dy="16">barrier: ✔</tspan>
-  </text>
+  <path d="M185 184 L185 198" fill="none" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-d)"/>
+  <text x="195" y="195" class="dep-edge" fill="#6b7280">dependsOn</text>
 
-  <!-- Step 01 定义卡片 -->
-  <rect x="45" y="288" width="310" height="155" fill="#fff" rx="8" stroke="#D0D8E0" stroke-width="1"/>
-  <rect x="45" y="288" width="310" height="24" fill="#E8F0FE" rx="8"/>
-  <rect x="45" y="306" width="310" height="6" fill="#E8F0FE"/>
-  <circle cx="58" cy="300" r="7" fill="#E67E22"/>
-  <text x="58" y="304" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">01</text>
-  <text x="72" y="304" fill="#333" font-size="12" font-weight="bold">brainstorm</text>
-  <text x="280" y="304" fill="#888" font-size="10">graph: parallel</text>
+  <g>
+    <rect x="40" y="198" width="290" height="96" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <circle cx="60" cy="216" r="10" fill="#ba7517"/>
+    <text x="60" y="220" text-anchor="middle" class="step-num">01</text>
+    <text x="78" y="220" class="step-id">multi-dim-explore</text>
+    <text x="270" y="220" text-anchor="end" class="step-graph">graph: parallel</text>
+    <line x1="60" y1="226" x2="310" y2="226" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="60" y="242" class="step-body">dependsOn: ['topic-parse']</text>
+    <text x="60" y="258" class="step-body">graph: parallel('explore-batch', [3 agents])</text>
+    <text x="60" y="274" class="step-body">converge + gate</text>
+    <text x="60" y="290" class="step-body">writes: .meta/consolidated-findings.json</text>
+  </g>
 
-  <text x="55" y="328" fill="#666" font-size="10">
-    <tspan x="55" dy="0">dependsOn: ['intent-anchor']</tspan>
-    <tspan x="55" dy="16">graph: parallel('brainstorm', '头脑风暴', [</tspan>
-    <tspan x="65" dy="15">task({...4 agents}),</tspan>
-    <tspan x="65" dy="15">converge: {...},</tspan>
-    <tspan x="65" dy="15">gate: {...} )</tspan>
-    <tspan x="55" dy="16">writes: requirement-web.json</tspan>
-  </text>
+  <path d="M185 294 L185 308" fill="none" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-d)"/>
+  <text x="195" y="305" class="dep-edge" fill="#6b7280">dependsOn</text>
 
-  <!-- Step 02 定义卡片 -->
-  <rect x="45" y="458" width="310" height="140" fill="#fff" rx="8" stroke="#D0D8E0" stroke-width="1"/>
-  <rect x="45" y="458" width="310" height="24" fill="#E8F0FE" rx="8"/>
-  <rect x="45" y="476" width="310" height="6" fill="#E8F0FE"/>
-  <circle cx="58" cy="470" r="7" fill="#27AE60"/>
-  <text x="58" y="474" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">02</text>
-  <text x="72" y="474" fill="#333" font-size="12" font-weight="bold">capability-research</text>
-  <text x="280" y="474" fill="#888" font-size="10">graph: seq</text>
+  <g>
+    <rect x="40" y="308" width="290" height="96" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <circle cx="60" cy="326" r="10" fill="#0f6e56"/>
+    <text x="60" y="330" text-anchor="middle" class="step-num">02</text>
+    <text x="78" y="330" class="step-id">organize</text>
+    <text x="270" y="330" text-anchor="end" class="step-graph">graph: seq</text>
+    <line x1="60" y1="336" x2="310" y2="336" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="60" y="352" class="step-body">dependsOn: ['multi-dim-explore']</text>
+    <text x="60" y="368" class="step-body">graph: seq('organize-seq', [2 tasks])</text>
+    <text x="60" y="384" class="step-body">writes: .meta/organized.json</text>
+  </g>
 
-  <text x="55" y="498" fill="#666" font-size="10">
-    <tspan x="55" dy="0">dependsOn: ['brainstorm']</tspan>
-    <tspan x="55" dy="16">graph: seq('research', '能力研究', [</tspan>
-    <tspan x="65" dy="15">task({...批次 A}),</tspan>
-    <tspan x="65" dy="15">task({...批次 B}) )</tspan>
-    <tspan x="55" dy="16">writes: capabilities/*.md</tspan>
-    <tspan x="55" dy="16">reuse: file-existence skip</tspan>
-  </text>
+  <path d="M185 404 L185 418" fill="none" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-d)"/>
+  <text x="195" y="415" class="dep-edge" fill="#6b7280">dependsOn</text>
 
-  <!-- Step 03 定义卡片 -->
-  <rect x="45" y="613" width="310" height="140" fill="#fff" rx="8" stroke="#D0D8E0" stroke-width="1"/>
-  <rect x="45" y="613" width="310" height="24" fill="#E8F0FE" rx="8"/>
-  <rect x="45" y="631" width="310" height="6" fill="#E8F0FE"/>
-  <circle cx="58" cy="625" r="7" fill="#8E44AD"/>
-  <text x="58" y="629" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">03</text>
-  <text x="72" y="629" fill="#333" font-size="12" font-weight="bold">briefing-assemble</text>
-  <text x="280" y="629" fill="#888" font-size="10">graph: mapNode</text>
+  <g>
+    <rect x="40" y="418" width="290" height="96" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <circle cx="60" cy="436" r="10" fill="#0f6e56"/>
+    <text x="60" y="440" text-anchor="middle" class="step-num">03</text>
+    <text x="78" y="440" class="step-id">deep-dive</text>
+    <text x="270" y="440" text-anchor="end" class="step-graph">graph: seq</text>
+    <line x1="60" y1="446" x2="310" y2="446" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="60" y="462" class="step-body">dependsOn: ['organize']</text>
+    <text x="60" y="478" class="step-body">graph: seq('deep-dive-seq', [2 tasks])</text>
+    <text x="60" y="494" class="step-body">writes: .meta/dive-concepts.json 等</text>
+    <text x="60" y="510" class="step-body">reuse: 文件存在跳过</text>
+  </g>
 
-  <text x="55" y="653" fill="#666" font-size="10">
-    <tspan x="55" dy="0">dependsOn: ['capability-research']</tspan>
-    <tspan x="55" dy="16">graph: mapNode('briefing', 'Briefing 组装',</tspan>
-    <tspan x="65" dy="15">items: propositions,</tspan>
-    <tspan x="65" dy="15">worker: task({...}), max: 5)</tspan>
-    <tspan x="55" dy="16">writes: briefings/*.md</tspan>
-    <tspan x="55" dy="16">reuse: file-existence skip</tspan>
-  </text>
+  <path d="M185 514 L185 528" fill="none" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-d)"/>
+  <text x="195" y="525" class="dep-edge" fill="#6b7280">dependsOn</text>
 
-  <!-- dep 依赖连线 -->
-  <line x1="200" y1="273" x2="200" y2="286" stroke="#E67E22" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
-  <line x1="200" y1="443" x2="200" y2="456" stroke="#27AE60" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
-  <line x1="200" y1="598" x2="200" y2="611" stroke="#8E44AD" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <g>
+    <rect x="40" y="528" width="290" height="96" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <circle cx="60" cy="546" r="10" fill="#534ab7"/>
+    <text x="60" y="550" text-anchor="middle" class="step-num">04</text>
+    <text x="78" y="550" class="step-id">report</text>
+    <text x="270" y="550" text-anchor="end" class="step-graph">graph: mapNode</text>
+    <line x1="60" y1="556" x2="310" y2="556" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="60" y="572" class="step-body">dependsOn: ['deep-dive']</text>
+    <text x="60" y="588" class="step-body">graph: mapNode('report-map', items, worker, 3)</text>
+    <text x="60" y="604" class="step-body">writes: .meta/report/{chapter}.md</text>
+    <text x="60" y="620" class="step-body">reuse: 文件存在跳过</text>
+  </g>
 
-  <text x="200" y="281" text-anchor="middle" fill="#E67E22" font-size="9">dependsOn</text>
-  <text x="200" y="451" text-anchor="middle" fill="#27AE60" font-size="9">dependsOn</text>
-  <text x="200" y="606" text-anchor="middle" fill="#8E44AD" font-size="9">dependsOn</text>
+  <g>
+    <rect x="40" y="640" width="290" height="20" rx="4" fill="#fffbeb" stroke="#ef9f27" stroke-width="0.5"/>
+    <text x="56" y="654" class="note-key">💡 只声明 dependsOn，不写死序号</text>
+  </g>
 
-  <!-- 底部说明 -->
-  <rect x="45" y="770" width="310" height="95" fill="#fff8e0" rx="8" stroke="#E0C870" stroke-width="1"/>
-  <text x="200" y="790" text-anchor="middle" fill="#8B6914" font-size="11" font-weight="bold">💡 关键：只声明「依赖谁」</text>
-  <text x="60" y="810" fill="#8B6914" font-size="10">不写死序号（01, 02, 03...）</text>
-  <text x="60" y="828" fill="#8B6914" font-size="10">序号 = skillpack 自动拓扑排序生成</text>
-  <text x="60" y="846" fill="#8B6914" font-size="10">改依赖关系 → 序号自动重排</text>
+  <text x="350" y="76" class="section">Step 2 · skillpack 打包管线</text>
 
-  <!-- ============================================================ -->
-  <!-- PANEL 2: 打包管线 -->
-  <!-- ============================================================ -->
-  <rect x="390" y="80" width="520" height="800" fill="url(#bgCenter)" rx="12" stroke="#B0C8E0" stroke-width="1.5" filter="url(#shadow)"/>
-  <rect x="390" y="80" width="520" height="36" fill="#3D5A80" rx="12"/>
-  <rect x="390" y="104" width="520" height="12" fill="#3D5A80"/>
-  <text x="650" y="103" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">② skillpack 打包管线</text>
-  <text x="650" y="130" text-anchor="middle" fill="#666" font-size="11">@co-kyo/skillpack + @co-kyo/skillpack-common</text>
+  <g>
+    <rect x="350" y="88" width="360" height="118" rx="8" fill="#f9fafb" stroke="#e5e7eb" stroke-width="0.5"/>
+    <rect x="350" y="88" width="360" height="22" rx="8" fill="#185fa5"/>
+    <text x="530" y="104" text-anchor="middle" class="phase-title">Phase 1 · VALIDATE</text>
+    <text x="362" y="134" class="phase-name">validateStep()</text>
+    <text x="362" y="152" class="phase-body">id / title / writes / graph 必填</text>
+    <text x="362" y="174" class="phase-name">validateDependencyRefs()</text>
+    <text x="362" y="192" class="phase-body">dependsOn 引用的 step id 必须真实存在</text>
+  </g>
+  <path d="M530 206 L530 220" fill="none" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- 阶段 1: 校验 -->
-  <rect x="410" y="148" width="480" height="130" fill="#fff" rx="10" stroke="#4A90D9" stroke-width="1.5"/>
-  <rect x="410" y="148" width="480" height="28" fill="#4A90D9" rx="10"/>
-  <rect x="410" y="170" width="480" height="6" fill="#4A90D9"/>
-  <text x="650" y="167" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Phase 1: 校验 (validate)</text>
+  <g>
+    <rect x="350" y="226" width="360" height="148" rx="8" fill="#f9fafb" stroke="#e5e7eb" stroke-width="0.5"/>
+    <rect x="350" y="226" width="360" height="22" rx="8" fill="#ba7517"/>
+    <text x="530" y="242" text-anchor="middle" class="phase-title">Phase 2 · RESOLVE</text>
+    <text x="362" y="272" class="phase-name">resolveStepOrder()</text>
+    <text x="362" y="290" class="phase-body">Kahn 拓扑排序：根据 dependsOn 构建 DAG</text>
+    <rect x="362" y="302" width="160" height="60" rx="4" fill="#fffbeb" stroke="#ef9f27" stroke-width="0.5"/>
+    <text x="442" y="318" text-anchor="middle" class="phase-name">依赖图</text>
+    <text x="372" y="336" class="phase-body">topic-parse</text>
+    <text x="372" y="352" class="phase-body">  └→ multi-dim-explore</text>
+    <rect x="538" y="302" width="160" height="60" rx="4" fill="#e1f5ee" stroke="#5dcaa5" stroke-width="0.5"/>
+    <text x="618" y="318" text-anchor="middle" class="phase-name">产出顺序</text>
+    <text x="548" y="336" class="phase-body">00: topic-parse</text>
+    <text x="548" y="352" class="phase-body">01: multi-dim-explore</text>
+  </g>
+  <path d="M530 374 L530 388" fill="none" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <text x="430" y="198" fill="#333" font-size="11" font-weight="bold">validateStep(step)</text>
-  <text x="445" y="215" fill="#555" font-size="10">每个 step：id/title/writes/graph 非空检查</text>
-  <text x="430" y="238" fill="#333" font-size="11" font-weight="bold">validateDependencyRefs(steps)</text>
-  <text x="445" y="255" fill="#555" font-size="10">dependsOn 指向的 step id 必须真实存在</text>
+  <g>
+    <rect x="350" y="394" width="360" height="118" rx="8" fill="#f9fafb" stroke="#e5e7eb" stroke-width="0.5"/>
+    <rect x="350" y="394" width="360" height="22" rx="8" fill="#0f6e56"/>
+    <text x="530" y="410" text-anchor="middle" class="phase-title">Phase 3 · RENDER</text>
+    <text x="362" y="440" class="phase-body">对每个 ResolvedStep：</text>
+    <text x="362" y="458" class="phase-body">1. 解析 {{stepSeq}} / {{stepId}} 模板变量</text>
+    <text x="362" y="474" class="phase-body">2. 按 ControlNode.kind 选择渲染函数</text>
+    <text x="362" y="490" class="phase-body">3. 拼接 Markdown：标题 → 文件引用 → 调度</text>
+    <text x="362" y="506" class="phase-body">4. fs.writeFileSync(seq-id.md, content)</text>
+  </g>
+  <path d="M530 512 L530 526" fill="none" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- 箭头 -->
-  <line x1="650" y1="278" x2="650" y2="300" stroke="#4A90D9" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <g>
+    <rect x="350" y="532" width="360" height="68" rx="8" fill="#e1f5ee" stroke="#5dcaa5" stroke-width="0.5"/>
+    <rect x="350" y="532" width="4" height="68" rx="2" fill="#0f6e56"/>
+    <text x="530" y="554" text-anchor="middle" class="phase-name" fill="#085041">OUTPUT · ResolvedPipeline</text>
+    <text x="362" y="574" class="phase-body" fill="#085041">pipeline.steps: ResolvedStep[](带 seq 序号)</text>
+    <text x="362" y="592" class="phase-body" fill="#085041">files: 已写入磁盘的 Markdown 路径列表</text>
+  </g>
 
-  <!-- 阶段 2: 拓扑排序 -->
-  <rect x="410" y="305" width="480" height="155" fill="#fff" rx="10" stroke="#F39C12" stroke-width="1.5"/>
-  <rect x="410" y="305" width="480" height="28" fill="#F39C12" rx="10"/>
-  <rect x="410" y="327" width="480" height="6" fill="#F39C12"/>
-  <text x="650" y="324" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Phase 2: 依赖解析 + 拓扑排序</text>
+  <text x="730" y="76" class="section">Step 3 · 产出 · Markdown</text>
 
-  <text x="430" y="355" fill="#333" font-size="11" font-weight="bold">resolveStepOrder(steps)</text>
-  <text x="445" y="373" fill="#555" font-size="10">Kahn 算法：根据 dependsOn 构建有向无环图</text>
+  <g>
+    <rect x="730" y="88" width="230" height="30" rx="4" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <text x="740" y="107" class="file">📄 00-topic-parse.md</text>
+  </g>
+  <g>
+    <rect x="730" y="124" width="230" height="30" rx="4" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <text x="740" y="143" class="file">📄 01-multi-dim-explore.md</text>
+  </g>
+  <g>
+    <rect x="730" y="160" width="230" height="30" rx="4" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <text x="740" y="179" class="file">📄 02-organize.md</text>
+  </g>
+  <g>
+    <rect x="730" y="196" width="230" height="30" rx="4" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <text x="740" y="215" class="file">📄 03-deep-dive.md</text>
+  </g>
+  <g>
+    <rect x="730" y="232" width="230" height="30" rx="4" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <text x="740" y="251" class="file">📄 04-report.md</text>
+  </g>
 
-  <rect x="440" y="388" width="190" height="60" fill="#FFF8E0" rx="6" stroke="#F0D060" stroke-width="1"/>
-  <text x="535" y="407" text-anchor="middle" fill="#7A5C00" font-size="11" font-weight="bold">依赖图</text>
-  <text x="450" y="425" fill="#7A5C00" font-size="10">intent-anchor (root)</text>
-  <text x="450" y="440" fill="#7A5C00" font-size="10">  └─→ brainstorm</text>
+  <text x="845" y="280" text-anchor="middle" class="phase-name">展开一个 Markdown 文件</text>
+  <g>
+    <rect x="730" y="290" width="230" height="182" rx="6" fill="#1f2937"/>
+    <text x="740" y="308" class="code"># Step 01: 多维度探索</text>
+    <text x="740" y="322" class="code">...</text>
+    <text x="740" y="338" class="code-key">## 文件引用</text>
+    <text x="740" y="352" class="code">| research-brief.json | ... |</text>
+    <text x="740" y="366" class="code">| schemas.md          | ... |</text>
+    <text x="740" y="382" class="code-key">## 调度策略</text>
+    <text x="740" y="398" class="code-h">### Schedule: 批量并行</text>
+    <text x="740" y="412" class="code">| explore-docs | … | 5min |</text>
+    <text x="740" y="428" class="code-key">## Barrier 1</text>
+    <text x="740" y="442" class="code">  📋 发现质量</text>
+    <text x="740" y="456" class="code">  提示：确认后进入分类整理</text>
+    <text x="740" y="470" class="code-t">*Generated by skillpack v0.1.0*</text>
+  </g>
 
-  <rect x="650" y="388" width="190" height="60" fill="#E8F8E8" rx="6" stroke="#80C880" stroke-width="1"/>
-  <text x="745" y="407" text-anchor="middle" fill="#2D6A2D" font-size="11" font-weight="bold">产出顺序</text>
-  <text x="660" y="425" fill="#2D6A2D" font-size="10">00: intent-anchor</text>
-  <text x="660" y="440" fill="#2D6A2D" font-size="10">01: brainstorm</text>
-
-  <!-- 箭头 -->
-  <line x1="650" y1="460" x2="650" y2="485" stroke="#F39C12" stroke-width="2" marker-end="url(#arrow)"/>
-
-  <!-- 阶段 3: 继续排序 + 渲染 -->
-  <rect x="410" y="490" width="480" height="140" fill="#fff" rx="10" stroke="#5CB85C" stroke-width="1.5"/>
-  <rect x="410" y="490" width="480" height="28" fill="#5CB85C" rx="10"/>
-  <rect x="410" y="512" width="480" height="6" fill="#5CB85C"/>
-  <text x="650" y="509" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Phase 3: 模板解析 + Markdown 渲染</text>
-
-  <text x="430" y="538" fill="#333" font-size="11">对于每个 ResolvedStep：</text>
-  <text x="445" y="558" fill="#555" font-size="10">1. 解析 {{build}} 变量（stepSeq, stepId → "00", "intent-anchor"）</text>
-  <text x="445" y="576" fill="#555" font-size="10">2. 按 ControlNode.kind 选择渲染函数（renderTask / renderSeq / renderParallel / ...）</text>
-  <text x="445" y="594" fill="#555" font-size="10">3. 拼接 Markdown：标题 → 文件引用 → 调度策略 → barrier → 插件</text>
-  <text x="445" y="612" fill="#555" font-size="10">4. fs.writeFileSync(seq-id.md, content)</text>
-
-  <!-- 箭头 -->
-  <line x1="650" y1="630" x2="650" y2="655" stroke="#5CB85C" stroke-width="2" marker-end="url(#arrow-green)"/>
-
-  <!-- 阶段 4: 输出 -->
-  <rect x="410" y="660" width="480" height="100" fill="#E8F5E8" rx="10" stroke="#5CB85C" stroke-width="2"/>
-  <rect x="410" y="660" width="480" height="28" fill="#449944" rx="10"/>
-  <rect x="410" y="682" width="480" height="6" fill="#449944"/>
-  <text x="650" y="679" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Output: ResolvedPipeline</text>
-
-  <text x="430" y="710" fill="#333" font-size="11">return { pipeline, files }</text>
-  <text x="445" y="730" fill="#555" font-size="10">pipeline.steps: ResolvedStep[] — 每个 step 带有 seq 序号</text>
-  <text x="445" y="748" fill="#555" font-size="10">files: string[] — 已写入磁盘的 Markdown 文件路径列表</text>
-
-  <!-- ============================================================ -->
-  <!-- PANEL 3: 输出 Markdown -->
-  <!-- ============================================================ -->
-  <rect x="930" y="80" width="330" height="800" fill="url(#bgRight)" rx="12" stroke="#B0D0B0" stroke-width="1.5" filter="url(#shadow)"/>
-  <rect x="930" y="80" width="330" height="36" fill="#3D7A3D" rx="12"/>
-  <rect x="930" y="104" width="330" height="12" fill="#3D7A3D"/>
-  <text x="1095" y="103" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">③ 产出：Markdown 文件</text>
-  <text x="1095" y="130" text-anchor="middle" fill="#666" font-size="11">output/</text>
-
-  <!-- 文件列表 -->
-  <rect x="945" y="148" width="300" height="36" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
-  <text x="955" y="170" fill="#333" font-size="11" font-weight="bold">📄 00-intent-anchor.md</text>
-  <text x="1160" y="170" fill="#888" font-size="10">43 lines</text>
-
-  <rect x="945" y="190" width="300" height="36" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
-  <text x="955" y="212" fill="#333" font-size="11" font-weight="bold">📄 01-brainstorm.md</text>
-  <text x="1160" y="212" fill="#888" font-size="10">86 lines</text>
-
-  <rect x="945" y="232" width="300" height="36" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
-  <text x="955" y="254" fill="#333" font-size="11" font-weight="bold">📄 02-capability-research.md</text>
-  <text x="1160" y="254" fill="#888" font-size="10">70 lines</text>
-
-  <rect x="945" y="274" width="300" height="36" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
-  <text x="955" y="296" fill="#333" font-size="11" font-weight="bold">📄 03-briefing-assemble.md</text>
-  <text x="1160" y="296" fill="#888" font-size="10">62 lines</text>
-
-  <!-- 示例展开：一个 Markdown 文件的构成 -->
-  <text x="1095" y="340" text-anchor="middle" fill="#3D7A3D" font-size="13" font-weight="bold">展开一个 Markdown 文件</text>
-
-  <rect x="945" y="355" width="300" height="240" fill="#1E1E1E" rx="6" stroke="#333" stroke-width="1"/>
-  <rect x="945" y="355" width="300" height="22" fill="#2D2D2D" rx="6"/>
-  <rect x="945" y="373" width="300" height="4" fill="#2D2D2D"/>
-  <circle cx="958" cy="366" r="4" fill="#FF5F56"/>
-  <circle cx="972" cy="366" r="4" fill="#FFBD2E"/>
-  <circle cx="986" cy="366" r="4" fill="#27C93F"/>
-  <text x="1095" y="370" text-anchor="middle" fill="#999" font-size="9">01-brainstorm.md</text>
-
-  <text x="958" y="400" fill="#6A9955" font-size="10"># Step 01: 头脑风暴</text>
-  <text x="958" y="418" fill="#CE9178" font-size="10">...</text>
-  <text x="958" y="436" fill="#569CD6" font-size="10">## 文件引用</text>
-  <text x="958" y="454" fill="#C0C0C0" font-size="10">| anchors.json | ... |</text>
-  <text x="958" y="472" fill="#C0C0C0" font-size="10">| schemas.md   | ... |</text>
-  <text x="958" y="490" fill="#569CD6" font-size="10">## 调度策略</text>
-  <text x="958" y="508" fill="#6A9955" font-size="10">### Schedule: 批量并行</text>
-  <text x="958" y="526" fill="#C0C0C0" font-size="10">| Agent | 角色 | 超时 |</text>
-  <text x="958" y="544" fill="#C0C0C0" font-size="10">| brainstorm-scenario | ... | 3min |</text>
-  <text x="958" y="562" fill="#569CD6" font-size="10">## Barrier 1</text>
-  <text x="958" y="580" fill="#CE9178" font-size="10">*Generated by skillpack v0.1.0*</text>
-
-  <!-- 关键：TS 中的 ControlNode.kind → Markdown 中的调度描述 -->
-  <text x="1095" y="625" text-anchor="middle" fill="#3D7A3D" font-size="13" font-weight="bold">ControlNode → Markdown 标题</text>
-
-  <rect x="945" y="640" width="300" height="95" fill="#fff" rx="6" stroke="#C0D8C0" stroke-width="1"/>
-  <text x="960" y="660" fill="#555" font-size="10">
-    <tspan x="960" dy="0">task()     → 主线程串行（无 Agent）</tspan>
-    <tspan x="960" dy="18">parallel() → 批量并行（含 gate + converge）</tspan>
-    <tspan x="960" dy="18">seq()      → 顺序执行 / 拓扑分批</tspan>
-    <tspan x="960" dy="18">mapNode()  → 滚动窗口（完成一个补一个）</tspan>
-    <tspan x="960" dy="18">branch/loop → 条件分支 / 循环</tspan>
-  </text>
-
-  <!-- 关键概念：dependsOn → seq -->
-  <rect x="945" y="745" width="300" height="120" fill="#FFF0E0" rx="8" stroke="#E0B080" stroke-width="1"/>
-  <text x="1095" y="767" text-anchor="middle" fill="#8B4513" font-size="11" font-weight="bold">🔑 关键：dependsOn 决定序号</text>
-  <text x="960" y="790" fill="#8B4513" font-size="10">
-    <tspan x="960" dy="0">开发者写 TS 时：不知道也不关心序号</tspan>
-    <tspan x="960" dy="18">只需要声明 dependsOn: ['brainstorm']</tspan>
-    <tspan x="960" dy="18">skillpack 自动计算出 seq = 02</tspan>
-    <tspan x="960" dy="18"></tspan>
-    <tspan x="960" dy="18">改了依赖关系 → 序号自动重排</tspan>
-    <tspan x="960" dy="18">和 webpack 的 chunk ID 分配一个道理</tspan>
-  </text>
+  <text x="845" y="492" text-anchor="middle" class="phase-name">ControlNode → Markdown 标题</text>
+  <g>
+    <rect x="730" y="502" width="230" height="120" rx="4" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+    <text x="740" y="520" class="phase-body">task() → 主线程串行</text>
+    <text x="740" y="536" class="phase-body">parallel() → 批量并行(gate+converge)</text>
+    <text x="740" y="552" class="phase-body">seq() → 顺序执行 / 拓扑分批</text>
+    <text x="740" y="568" class="phase-body">mapNode() → 滚动窗口</text>
+    <text x="740" y="584" class="phase-body">branch() → 条件分支</text>
+    <text x="740" y="600" class="phase-body">loop() → 循环</text>
+  </g>
 </svg>

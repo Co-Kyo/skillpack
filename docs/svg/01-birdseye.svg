@@ -1,185 +1,121 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" width="100%" height="100%">
-  <defs>
-    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
-    </filter>
-    <filter id="shadow-light" x="-5%" y="-5%" width="115%" height="115%">
-      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.25"/>
-    </filter>
-    <filter id="glow-line" x="-5%" y="-5%" width="110%" height="110%">
-      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#6366f1" flood-opacity="0.2"/>
-    </filter>
-    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M32 0L0 0 0 32" fill="none" stroke="#2a2b4e" stroke-width="0.5"/>
-    </pattern>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M0,1 L9,5 L0,9 Z" fill="#94a3b8"/>
-    </marker>
-    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M0,1 L9,5 L0,9 Z" fill="#f59e0b"/>
-    </marker>
-    <linearGradient id="grad-bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1a1b2e"/>
-      <stop offset="100%" stop-color="#0f1023"/>
-    </linearGradient>
-    <linearGradient id="g-teal" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0ea5e9"/>
-      <stop offset="100%" stop-color="#0284c7"/>
-    </linearGradient>
-    <linearGradient id="g-blue" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2563eb"/>
-      <stop offset="100%" stop-color="#1d4ed8"/>
-    </linearGradient>
-    <linearGradient id="g-indigo" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#6366f1"/>
-      <stop offset="100%" stop-color="#4f46e5"/>
-    </linearGradient>
-    <linearGradient id="g-violet" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#8b5cf6"/>
-      <stop offset="100%" stop-color="#7c3aed"/>
-    </linearGradient>
-    <linearGradient id="g-amber" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f59e0b"/>
-      <stop offset="100%" stop-color="#d97706"/>
-    </linearGradient>
-    <linearGradient id="g-green" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="100%" stop-color="#059669"/>
-    </linearGradient>
-    <linearGradient id="g-rose" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f43f5e"/>
-      <stop offset="100%" stop-color="#be123c"/>
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" width="100%" height="auto" role="img" aria-labelledby="t d">
+  <title id="t">skillpack · 全局鸟瞰图</title>
+  <desc id="d">skillpack 物理目录结构:Framework 层四个 npm 包、Demo 层输入文件、Output 层构建产物及依赖与调用关系</desc>
 
   <style>
-    .page-title { font-family: system-ui, -apple-system, sans-serif; font-size: 22px; font-weight: 700; fill: #f1f5f9; }
-    .page-subtitle { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; fill: #64748b; }
-    .section-label { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 600; fill: #64748b; letter-spacing: 0.3px; }
-    .box-title { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; fill: #ffffff; }
-    .box-subtitle { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; fill: #e0e7ff; }
-    .box-tag { font-family: system-ui, -apple-system, sans-serif; font-size: 9px; fill: #93c5fd; }
-    .arrow-label { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; fill: #94a3b8; font-style: italic; }
-    .legend-title { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 600; fill: #cbd5e1; }
-    .legend-item { font-family: system-ui, -apple-system, sans-serif; font-size: 10px; fill: #94a3b8; }
-    .node:hover { filter: brightness(1.15); cursor: pointer; }
+    text { font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, sans-serif; }
+    .title { font-size: 20px; font-weight: 500; fill: #1f2937; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .section { font-size: 13px; font-weight: 500; fill: #4b5563; }
+    .pkg-scope { font-size: 12px; fill: #7f77dd; }
+    .pkg-name { font-size: 14px; font-weight: 500; fill: #3c3489; }
+    .pkg-scope-b { font-size: 12px; fill: #378add; }
+    .pkg-name-b { font-size: 14px; font-weight: 500; fill: #0c447c; }
+    .pkg-sub { font-size: 12px; fill: #534ab7; }
+    .pkg-sub-b { font-size: 12px; fill: #185fa5; }
+    .pkg-tag { font-size: 11px; fill: #7f77dd; }
+    .pkg-tag-b { font-size: 11px; fill: #378add; }
+    .demo-title { font-size: 14px; font-weight: 500; fill: #111827; }
+    .demo-sub { font-size: 12px; fill: #4b5563; }
+    .demo-tag { font-size: 11px; fill: #6b7280; }
+    .dist-title { font-size: 16px; font-weight: 500; fill: #085041; }
+    .dist-sub { font-size: 12px; fill: #0f6e56; }
+    .dist-tag { font-size: 11px; fill: #1d9e75; }
+    .note { font-size: 12px; fill: #6b7280; }
+    .flow-label { font-size: 12px; font-weight: 500; fill: #4b5563; }
   </style>
 
-  <rect width="1000" height="750" fill="url(#grad-bg)"/>
-  <rect width="1000" height="750" fill="url(#grid)" opacity="0.25"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1 L8 5 L2 9" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1 L8 5 L2 9" fill="none" stroke="#185fa5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
 
-  <!-- Page Header -->
-  <text x="500" y="30" text-anchor="middle" class="page-title">skillpack · 全局鸟瞰图</text>
-  <text x="500" y="48" text-anchor="middle" class="page-subtitle">Skillpack Framework · 物理目录结构</text>
+  <text x="500" y="28" text-anchor="middle" class="title">skillpack · 全局鸟瞰图</text>
+  <text x="500" y="48" text-anchor="middle" class="subtitle">Skillpack Framework · 物理目录结构</text>
 
-  <!-- ─── LAYER 1 ─── -->
-  <text x="40" y="70" class="section-label">Layer 1 · Framework（packages/）</text>
-  <line x1="40" y1="76" x2="960" y2="76" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="40" y="82" class="section">Layer 1 · Framework(packages/)</text>
+  <line x1="40" y1="92" x2="960" y2="92" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4"/>
 
-  <!-- types -->
-  <g class="node">
-    <rect x="55" y="90" width="195" height="120" rx="10" ry="10" fill="url(#g-teal)" filter="url(#shadow)"/>
-    <rect x="55" y="90" width="6" height="120" rx="3" ry="3" fill="#38bdf8" opacity="0.6"/>
-    <text x="75" y="118" class="box-title">@co-kyo/skillpack-types</text>
-    <text x="75" y="140" class="box-subtitle">类型系统 + 构建函数</text>
-    <circle cx="77" cy="163" r="3" fill="#7dd3fc"/>
-    <text x="85" y="166" class="box-tag">leaf · zero deps</text>
+  <g>
+    <rect x="80" y="144" width="220" height="88" rx="8" fill="#eeedfe" stroke="#afae9c" stroke-width="0.5"/>
+    <rect x="80" y="144" width="4" height="88" rx="2" fill="#534ab7"/>
+    <text x="94" y="166" class="pkg-scope">@co-kyo/</text>
+    <text x="94" y="184" class="pkg-name">skillpack-types</text>
+    <text x="94" y="208" class="pkg-sub">类型系统 + 构建函数</text>
+    <text x="94" y="226" class="pkg-tag">leaf · zero deps</text>
   </g>
 
-  <!-- common -->
-  <g class="node">
-    <rect x="280" y="90" width="195" height="120" rx="10" ry="10" fill="url(#g-blue)" filter="url(#shadow)"/>
-    <rect x="280" y="90" width="6" height="120" rx="3" ry="3" fill="#60a5fa" opacity="0.6"/>
-    <text x="300" y="118" class="box-title">@co-kyo/skillpack-common</text>
-    <text x="300" y="140" class="box-subtitle">校验 / 排序 / 图遍历</text>
-    <circle cx="302" cy="163" r="3" fill="#93c5fd"/>
-    <text x="310" y="166" class="box-tag">depends on types</text>
+  <g>
+    <rect x="380" y="144" width="220" height="88" rx="8" fill="#e6f1fb" stroke="#85b7eb" stroke-width="0.5"/>
+    <rect x="380" y="144" width="4" height="88" rx="2" fill="#185fa5"/>
+    <text x="394" y="166" class="pkg-scope-b">@co-kyo/</text>
+    <text x="394" y="184" class="pkg-name-b">skillpack-common</text>
+    <text x="394" y="208" class="pkg-sub-b">校验 / 排序 / 图遍历</text>
+    <text x="394" y="226" class="pkg-tag-b">depends on types</text>
   </g>
 
-  <!-- build -->
-  <g class="node">
-    <rect x="505" y="90" width="195" height="120" rx="10" ry="10" fill="url(#g-indigo)" filter="url(#shadow)"/>
-    <rect x="505" y="90" width="6" height="120" rx="3" ry="3" fill="#818cf8" opacity="0.6"/>
-    <text x="525" y="118" class="box-title">@co-kyo/skillpack</text>
-    <text x="525" y="140" class="box-subtitle">打包器 + CLI</text>
-    <circle cx="527" cy="163" r="3" fill="#a5b4fc"/>
-    <text x="535" y="166" class="box-tag">depends on types, common</text>
+  <g>
+    <rect x="700" y="104" width="220" height="88" rx="8" fill="#e6f1fb" stroke="#85b7eb" stroke-width="0.5"/>
+    <rect x="700" y="104" width="4" height="88" rx="2" fill="#185fa5"/>
+    <text x="714" y="126" class="pkg-scope-b">@co-kyo/</text>
+    <text x="714" y="144" class="pkg-name-b">skillpack-validate</text>
+    <text x="714" y="168" class="pkg-sub-b">完整性校验 CLI</text>
+    <text x="714" y="186" class="pkg-tag-b">depends on types, common</text>
   </g>
 
-  <!-- validate -->
-  <g class="node">
-    <rect x="730" y="90" width="195" height="120" rx="10" ry="10" fill="url(#g-violet)" filter="url(#shadow)"/>
-    <rect x="730" y="90" width="6" height="120" rx="3" ry="3" fill="#a78bfa" opacity="0.6"/>
-    <text x="750" y="118" class="box-title">@co-kyo/skillpack-validate</text>
-    <text x="750" y="140" class="box-subtitle">校验 CLI</text>
-    <circle cx="752" cy="163" r="3" fill="#c4b5fd"/>
-    <text x="760" y="166" class="box-tag">depends on types, common</text>
+  <g>
+    <rect x="700" y="220" width="220" height="88" rx="8" fill="#e6f1fb" stroke="#85b7eb" stroke-width="0.5"/>
+    <rect x="700" y="220" width="4" height="88" rx="2" fill="#185fa5"/>
+    <text x="714" y="242" class="pkg-scope-b">@co-kyo/</text>
+    <text x="714" y="260" class="pkg-name-b">skillpack</text>
+    <text x="714" y="284" class="pkg-sub-b">打包器 + Markdown 渲染 + CLI</text>
+    <text x="714" y="302" class="pkg-tag-b">depends on types, common</text>
   </g>
 
-  <!-- Layer 1 internal arrows -->
-  <path d="M250 150 L272 150" stroke="#94a3b8" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M475 150 L497 150" stroke="#94a3b8" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M377 210 Q 377 248 827 248 Q 827 210 827 210" stroke="#94a3b8" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M300 188 L380 188" fill="none" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M600 170 L700 148" fill="none" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M600 215 L700 246" fill="none" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- ─── LAYER 2 ─── -->
-  <text x="40" y="278" class="section-label">Layer 2 · Demo（demos/）</text>
-  <line x1="40" y1="284" x2="960" y2="284" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+  <path d="M810 308 V398 H360 V434" fill="none" stroke="#185fa5" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <path d="M560 398 V434" fill="none" stroke="#185fa5" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <text x="600" y="386" class="flow-label" fill="#185fa5">CLI 读取 config 与 skill</text>
 
-  <!-- config -->
-  <g class="node">
-    <rect x="210" y="300" width="265" height="100" rx="10" ry="10" fill="url(#g-amber)" filter="url(#shadow)"/>
-    <rect x="210" y="300" width="6" height="100" rx="3" ry="3" fill="#fbbf24" opacity="0.6"/>
-    <text x="230" y="330" class="box-title">skillpack.config.ts</text>
-    <text x="230" y="352" class="box-subtitle">构建配置（defineConfig）</text>
+  <text x="40" y="446" class="section">Layer 2 · Demo(demos/)</text>
+  <line x1="40" y1="454" x2="960" y2="454" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <g>
+    <rect x="240" y="466" width="240" height="76" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.5"/>
+    <rect x="240" y="466" width="4" height="76" rx="2" fill="#6b7280"/>
+    <text x="254" y="492" class="demo-title">skillpack.config.ts</text>
+    <text x="254" y="514" class="demo-sub">构建配置(defineConfig)</text>
+    <text x="254" y="532" class="demo-tag">构建入口</text>
   </g>
 
-  <!-- skill -->
-  <g class="node">
-    <rect x="525" y="300" width="265" height="100" rx="10" ry="10" fill="url(#g-green)" filter="url(#shadow)"/>
-    <rect x="525" y="300" width="6" height="100" rx="3" ry="3" fill="#34d399" opacity="0.6"/>
-    <text x="545" y="330" class="box-title">skill.ts</text>
-    <text x="545" y="352" class="box-subtitle">技能定义（createSkill）</text>
+  <g>
+    <rect x="520" y="466" width="240" height="76" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.5"/>
+    <rect x="520" y="466" width="4" height="76" rx="2" fill="#6b7280"/>
+    <text x="534" y="492" class="demo-title">skill.ts</text>
+    <text x="534" y="514" class="demo-sub">技能定义(createSkill)</text>
+    <text x="534" y="532" class="demo-tag">技能入口</text>
   </g>
 
-  <!-- Layer 2 internal arrow -->
-  <path d="M475 350 L517 350" stroke="#94a3b8" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M480 504 L520 504" fill="none" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- ─── LAYER 3 ─── -->
-  <text x="40" y="482" class="section-label">Layer 3 · Output（dist/）</text>
-  <line x1="40" y1="488" x2="960" y2="488" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+  <path d="M500 542 L500 594" fill="none" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="510" y="572" class="flow-label">buildPipeline() 渲染</text>
 
-  <!-- dist -->
-  <g class="node">
-    <rect x="175" y="505" width="650" height="115" rx="10" ry="10" fill="url(#g-rose)" filter="url(#shadow)"/>
-    <rect x="175" y="505" width="6" height="115" rx="3" ry="3" fill="#fb7185" opacity="0.6"/>
-    <text x="500" y="535" text-anchor="middle" class="box-title" font-size="16">dist /</text>
-    <text x="500" y="558" text-anchor="middle" class="box-subtitle">生成产物</text>
-    <circle cx="410" cy="580" r="3" fill="#fecdd3"/>
-    <text x="420" y="584" class="box-tag" fill="#fda4af">SKILL.md</text>
-    <circle cx="410" cy="600" r="3" fill="#fecdd3"/>
-    <text x="420" y="604" class="box-tag" fill="#fda4af">processes/（5 .md 文件）</text>
+  <text x="40" y="604" class="section">Layer 3 · Output(dist/)</text>
+  <line x1="40" y1="612" x2="960" y2="612" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <g>
+    <rect x="175" y="624" width="650" height="76" rx="8" fill="#e1f5ee" stroke="#5dcaa5" stroke-width="0.5"/>
+    <rect x="175" y="624" width="4" height="76" rx="2" fill="#0f6e56"/>
+    <text x="500" y="652" text-anchor="middle" class="dist-title">dist /</text>
+    <text x="500" y="672" text-anchor="middle" class="dist-sub">构建产物</text>
+    <text x="500" y="692" text-anchor="middle" class="dist-tag">SKILL.md  ·  processes/*.md  ·  3 份 manifest + align-report</text>
   </g>
-
-  <!-- ─── CROSS-LAYER ARROWS ─── -->
-
-  <!-- build → config -->
-  <path d="M602 210 Q 470 260 342 293" stroke="#94a3b8" stroke-width="1.5" fill="none" marker-end="url(#arrow)" filter="url(#glow-line)"/>
-  <text x="470" y="262" text-anchor="middle" class="arrow-label">import { defineConfig }</text>
-
-  <!-- config → dist -->
-  <path d="M342 400 Q 372 450 408 498" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#arrow-amber)"/>
-  <!-- skill → dist -->
-  <path d="M657 400 Q 627 450 592 498" stroke="#10b981" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-
-  <text x="500" y="462" text-anchor="middle" class="arrow-label">buildPipeline() → Markdown</text>
-
-  <!-- ─── LEGEND ─── -->
-  <rect x="742" y="650" width="210" height="78" rx="8" ry="8" fill="#1e293b" stroke="#334155" stroke-width="1" filter="url(#shadow-light)"/>
-  <text x="760" y="672" class="legend-title">图例</text>
-  <circle cx="762" cy="689" r="5" fill="#0ea5e9"/>
-  <text x="776" y="693" class="legend-item">Framework Layer（packages/）</text>
-  <circle cx="762" cy="707" r="5" fill="#f59e0b"/>
-  <text x="776" y="711" class="legend-item">Demo Layer（demos/）</text>
-  <circle cx="762" cy="725" r="5" fill="#f43f5e"/>
-  <text x="776" y="729" class="legend-item">Output Layer（dist/）</text>
 </svg>

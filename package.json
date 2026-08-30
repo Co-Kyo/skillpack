@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b --emitDeclarationOnly",
+    "test": "node --test packages/skillpack-build/test/steprefs.test.mjs",
     "clean": "rm -rf packages/*/dist packages/*/tsconfig.tsbuildinfo dist",
     "demo": "npm run start --workspace=@co-kyo/skillpack-demo"
   },

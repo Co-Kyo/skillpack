@@ -7,9 +7,9 @@
     "start": "tsx ../packages/skillpack-build/src/bin/cli.ts build skillpack.config.ts"
   },
   "dependencies": {
-    "@co-kyo/skillpack-types": "^0.1.0",
-    "@co-kyo/skillpack-common": "^0.1.0",
-    "@co-kyo/skillpack": "^0.1.0"
+    "@co-kyo/skillpack-types": "^0.2.0",
+    "@co-kyo/skillpack-common": "^0.2.0",
+    "@co-kyo/skillpack": "^0.2.0"
   },
   "devDependencies": {
     "tsx": "^4.16.0"

@@ -7,12 +7,16 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag, for example v0.1.0"
+        description: "Release tag, for example v0.2.0"
         required: false
-        default: "v0.1.0"
+        default: "v0.2.0"
 
-permissions:
-  contents: write
+jobs:
+  publish-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
 
 jobs:
   publish-and-release:
@@ -88,16 +92,14 @@ jobs:
           npm run build
           npm run typecheck
 
-      - name: Publish npm packages
+      - name: Ensure npm supports Trusted Publishing
         if: steps.version-gate.outputs.should_release == 'true'
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm install -g npm@latest
+
+      - name: Publish npm packages (Trusted Publishing / OIDC)
+        if: steps.version-gate.outputs.should_release == 'true'
         run: |
           set -euo pipefail
-          if [ -z "$NPM_TOKEN" ]; then
-            echo "NPM_TOKEN is not configured; skipping npm publish"
-            exit 0
-          fi
           for pkg in \
             packages/skillpack-types \
             packages/skillpack-common \
@@ -106,10 +108,10 @@ jobs:
           do
             name=$(node -p "require('./$pkg/package.json').name")
             manifest_version=$(node -p "require('./release-manifest.json').packages['$name']")
-            if npm view "$name@$manifest_version" --registry=https://registry.npmjs.org/ >/dev/null 2>&1; then
+            if npm view "$name@$manifest_version" >/dev/null 2>&1; then
               echo "exists $name@$manifest_version"
             else
-              npm publish --workspace "$pkg" --access public --registry=https://registry.npmjs.org/
+              npm publish --workspace "$pkg" --access public
             fi
           done
 

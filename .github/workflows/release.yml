@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
 
       - name: Resolve release tag
@@ -90,7 +90,9 @@ jobs:
 
       - name: Ensure npm supports Trusted Publishing
         if: steps.version-gate.outputs.should_release == 'true'
-        run: npm install -g npm@latest
+        run: |
+          npm install -g npm@11.5.1 || (sleep 15 && npm install -g npm@11.5.1)
+          npm --version
 
       - name: Publish npm packages (Trusted Publishing / OIDC)
         if: steps.version-gate.outputs.should_release == 'true'

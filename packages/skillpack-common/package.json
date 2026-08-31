@@ -1,6 +1,6 @@
 {
   "name": "@co-kyo/skillpack-common",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Validation, topological sorting and graph helpers for skillpack",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,6 +29,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@co-kyo/skillpack-types": "^0.2.0"
+    "@co-kyo/skillpack-types": "^0.3.0"
   }
 }

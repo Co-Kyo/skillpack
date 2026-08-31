@@ -1,15 +1,15 @@
 {
-  "name": "@co-kyo/skillpack-demo",
+  "name": "skillnomad-demo",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "tsx ../packages/skillpack-build/src/bin/cli.ts build skillpack.config.ts"
+    "start": "tsx ../packages/skillnomad/src/bin/cli.ts build skillnomad.config.ts"
   },
   "dependencies": {
-    "@co-kyo/skillpack-types": "^0.3.0",
-    "@co-kyo/skillpack-common": "^0.3.0",
-    "@co-kyo/skillpack": "^0.3.0"
+    "skillnomad-types": "^0.1.0-beta.1",
+    "skillnomad-common": "^0.1.0-beta.1",
+    "skillnomad": "^0.1.0-beta.1"
   },
   "devDependencies": {
     "tsx": "^4.16.0"

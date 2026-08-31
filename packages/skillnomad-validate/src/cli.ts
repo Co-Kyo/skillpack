@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 // ============================================================
-// skillpack-validate CLI — Entry point for command-line validation
+// skillnomad-validate CLI — Entry point for command-line validation
 // ============================================================
 //
 // Usage:
-//   skillpack-validate <path-to-pipeline-file>
+//   skillnomad-validate <path-to-pipeline-file>
 //
 // The pipeline file should export an array of StepDefinitions as default.
 // ============================================================
@@ -16,13 +16,13 @@ import { resolve } from 'node:path';
 const filePath = process.argv[2];
 
 if (!filePath) {
-  console.error('Usage: skillpack-validate <path-to-pipeline-file>');
+  console.error('Usage: skillnomad-validate <path-to-pipeline-file>');
   process.exit(1);
 }
 
 const absPath = resolve(process.cwd(), filePath);
 
-console.log(`skillpack-validate v0.1.0`);
+console.log(`skillnomad-validate v0.1.0`);
 console.log(`Validating: ${absPath}\n`);
 
 try {

@@ -1,12 +1,12 @@
 // ============================================================
-// skillpack-validate — Reference integrity checker for skill pipelines
+// skillnomad-validate — Reference integrity checker for skill pipelines
 // ============================================================
 
 import type {
   StepDefinition,
   ResolvedPipeline,
   SourcePhase,
-} from '@co-kyo/skillpack-types';
+} from 'skillnomad-types';
 import {
   validateStep,
   validateDependencyRefs,
@@ -14,7 +14,7 @@ import {
   validateStepChain,
   validatePhaseCoverage,
   resolveStepOrder,
-} from '@co-kyo/skillpack-common';
+} from 'skillnomad-common';
 
 export interface ValidationReport {
   passed: boolean;

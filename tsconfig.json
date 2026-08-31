@@ -17,9 +17,9 @@
   },
   "include": [],
   "references": [
-    { "path": "packages/skillpack-types" },
-    { "path": "packages/skillpack-common" },
-    { "path": "packages/skillpack-validate" },
-    { "path": "packages/skillpack-build" }
+    { "path": "packages/skillnomad-types" },
+    { "path": "packages/skillnomad-common" },
+    { "path": "packages/skillnomad-validate" },
+    { "path": "packages/skillnomad" }
   ]
 }

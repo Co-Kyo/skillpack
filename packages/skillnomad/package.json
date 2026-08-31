@@ -1,0 +1,39 @@
+{
+  "name": "skillnomad",
+  "version": "0.1.0-beta.1",
+  "description": "skillnomad — build LLM-executable Markdown skills from structured pipeline definitions",
+  "keywords": ["skillnomad", "llm", "ai-agents", "agent-skills", "skill", "pipeline", "markdown", "claude"],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "skillnomad": "./dist/bin/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Co-Kyo/skillnomad.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Co-Kyo/skillnomad/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "skillnomad-types": "^0.1.0-beta.1",
+    "skillnomad-common": "^0.1.0-beta.1"
+  }
+}

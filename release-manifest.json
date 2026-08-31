@@ -1,9 +1,9 @@
 {
-  "release": "0.3.1",
+  "release": "0.1.0-beta.1",
   "packages": {
-    "@co-kyo/skillpack-types": "0.3.1",
-    "@co-kyo/skillpack-common": "0.3.1",
-    "@co-kyo/skillpack": "0.3.1",
-    "@co-kyo/skillpack-validate": "0.3.1"
+    "skillnomad-types": "0.1.0-beta.1",
+    "skillnomad-common": "0.1.0-beta.1",
+    "skillnomad": "0.1.0-beta.1",
+    "skillnomad-validate": "0.1.0-beta.1"
   }
 }

@@ -2,7 +2,7 @@
 // SkillSourceModel
 //
 // Skill 源码模型：不直接编写 Markdown，而是用类型化数据描述
-// “如何做一件事”。最终由 skillpack-build 渲染成标准 Markdown。
+// “如何做一件事”。最终由 skillnomad-build 渲染成标准 Markdown。
 // ============================================================
 
 export type ActorKind = 'agent' | 'human' | 'script' | 'subflow';

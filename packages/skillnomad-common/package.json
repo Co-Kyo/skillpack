@@ -1,8 +1,8 @@
 {
-  "name": "@co-kyo/skillpack-common",
-  "version": "0.3.1",
-  "description": "Validation, topological sorting and graph helpers for skillpack",
-  "keywords": ["skillpack", "llm", "skill", "pipeline", "topological-sort", "graph"],
+  "name": "skillnomad-common",
+  "version": "0.1.0-beta.1",
+  "description": "Validation, topological sorting and graph helpers for skillnomad",
+  "keywords": ["skillnomad", "llm", "skill", "pipeline", "topological-sort", "graph"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -18,10 +18,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Co-Kyo/skillpack.git"
+    "url": "git+https://github.com/Co-Kyo/skillnomad.git"
   },
   "bugs": {
-    "url": "https://github.com/Co-Kyo/skillpack/issues"
+    "url": "https://github.com/Co-Kyo/skillnomad/issues"
   },
   "publishConfig": {
     "access": "public"
@@ -30,6 +30,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@co-kyo/skillpack-types": "^0.3.0"
+    "skillnomad-types": "^0.1.0-beta.1"
   }
 }

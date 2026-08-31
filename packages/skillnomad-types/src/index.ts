@@ -1,5 +1,5 @@
 // ============================================================
-// skillpack-types v2 — Control-flow tree primitives for LLM skill pipelines
+// skillnomad-types v2 — Control-flow tree primitives for LLM skill pipelines
 //
 // 设计哲学:
 //   - 递归树替代扁平图+边，表达力更强
@@ -423,7 +423,7 @@ export interface CheckpointDef {
  */
 export function edge(_from?: string, _to?: string, _condition?: string): never {
   throw new Error(
-    '[skillpack-types v2] edge() 已移除。使用 seq() 或 branch() 替代扁平边。',
+    '[skillnomad-types v2] edge() 已移除。使用 seq() 或 branch() 替代扁平边。',
   );
 }
 
@@ -432,7 +432,7 @@ export function edge(_from?: string, _to?: string, _condition?: string): never {
  */
 export function agent(_config?: never): never {
   throw new Error(
-    '[skillpack-types v2] agent() 已移除。使用 task({ type: "agent", ... }) 替代。',
+    '[skillnomad-types v2] agent() 已移除。使用 task({ type: "agent", ... }) 替代。',
   );
 }
 
@@ -441,7 +441,7 @@ export function agent(_config?: never): never {
  */
 export function batch(_id?: string, _label?: string, _branches?: never[], _config?: never): never {
   throw new Error(
-    '[skillpack-types v2] batch() 已移除。使用 parallel() 替代。',
+    '[skillnomad-types v2] batch() 已移除。使用 parallel() 替代。',
   );
 }
 
@@ -450,6 +450,6 @@ export function batch(_id?: string, _label?: string, _branches?: never[], _confi
  */
 export function mapWork(_id?: string, _label?: string, _itemFrom?: string, _worker?: never, _maxConcurrency?: number): never {
   throw new Error(
-    '[skillpack-types v2] mapWork() 已移除。使用 mapNode() 替代。',
+    '[skillnomad-types v2] mapWork() 已移除。使用 mapNode() 替代。',
   );
 }

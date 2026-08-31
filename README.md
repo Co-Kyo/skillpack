@@ -1,23 +1,23 @@
-# skillpack
+# skillnomad
 
 LLM 可执行 Markdown Skill 管线的打包工具。
 
 ## 安装
 
 ```bash
-npm install -D @co-kyo/skillpack
+npm install -D skillnomad
 ```
 
 ## 使用
 
 ```bash
-npx skillpack build skillpack.config.ts
+npx skillnomad build skillnomad.config.ts
 ```
 
-`skillpack.config.ts` 默认指向当前目录下的配置文件：
+`skillnomad.config.ts` 默认指向当前目录下的配置文件：
 
 ```ts
-import { defineConfig } from '@co-kyo/skillpack';
+import { defineConfig } from 'skillnomad';
 
 export default defineConfig({
   skill: './skill.ts',
@@ -27,7 +27,7 @@ export default defineConfig({
 
 ## 核心契约：步骤之间是线性链
 
-> 这一节是 skillpack 对使用者的**公开承诺**，不读源码也应当知道。
+> 这一节是 skillnomad 对使用者的**公开承诺**，不读源码也应当知道。
 
 **顶层 step 是不可并行的执行单位。** 步骤之间的关系是一条**线性链**，不是 DAG：
 
@@ -45,7 +45,7 @@ export default defineConfig({
    即 `next` 已从「必须手写的字段」降为「可选覆盖的派生值」。
 
 违反契约（多依赖 / 成环 / 断链 / 悬空引用）会在构建期报错，**不会静默线性化**。
-校验由 `validateStepChain()` 实现（`skillpack-common`），在 `skillpack build` 与 `skillpack validate` 两处都会执行；
+校验由 `validateStepChain()` 实现（`skillnomad-common`），在 `skillnomad build` 与 `skillnomad validate` 两处都会执行；
 所有推导函数在链不成立时一律**返回空而不猜测**，交由校验报错说明原因。
 
 末步用终止标记 `done` 结束链；`next` 若指向未定义的步骤会直接报错。
@@ -109,18 +109,18 @@ step('scan', '广域扫描')
 
 ```text
 packages/
-├── skillpack-types/     # 类型系统 + task/seq/parallel/mapNode 等构建函数
-├── skillpack-common/    # 校验、图遍历与链推导
-├── skillpack-build/     # 打包器 + Markdown 渲染 + CLI
-└── skillpack-validate/  # 管线完整性校验 CLI
+├── skillnomad-types/     # 类型系统 + task/seq/parallel/mapNode 等构建函数
+├── skillnomad-common/    # 校验、图遍历与链推导
+├── skillnomad-build/     # 打包器 + Markdown 渲染 + CLI
+└── skillnomad-validate/  # 管线完整性校验 CLI
 ```
 
 npm 包名：
 
-- `@co-kyo/skillpack`
-- `@co-kyo/skillpack-types`
-- `@co-kyo/skillpack-common`
-- `@co-kyo/skillpack-validate`
+- `skillnomad`
+- `skillnomad-types`
+- `skillnomad-common`
+- `skillnomad-validate`
 
 ## 开发
 
@@ -133,7 +133,7 @@ npm run demo
 
 ## Release
 
-推送 `v*` tag，或在 GitHub Actions 中手动运行 `Release skillpack` 工作流：
+推送 `v*` tag，或在 GitHub Actions 中手动运行 `Release skillnomad` 工作流：
 
 - 自动构建并打包四个 npm 包。
 - 如果仓库配置了 `NPM_TOKEN` secret，自动发布到 npm。
@@ -141,7 +141,7 @@ npm run demo
 
 ## 文档
 
-- `docs/explainer.html`：基于当前 `@co-kyo/skillpack` API 的教学页。
+- `docs/explainer.html`：基于当前 `skillnomad` API 的教学页。
 
 ## License
 

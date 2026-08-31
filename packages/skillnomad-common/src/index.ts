@@ -1,5 +1,5 @@
 // ============================================================
-// skillpack-common — Runtime helpers: graph walker, validation, template resolution
+// skillnomad-common — Runtime helpers: graph walker, validation, template resolution
 // ============================================================
 
 import type {
@@ -20,7 +20,7 @@ import type {
   PipelineStateManager,
   StepState,
   StepStatus,
-} from '@co-kyo/skillpack-types';
+} from 'skillnomad-types';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
@@ -914,7 +914,7 @@ export async function executeBarrier(
 export const defaultStateManager: PipelineStateManager = {
   load(pipelineName: string): PipelineState | null {
     try {
-      const statePath = path.join(process.cwd(), '.skillpack-state.json');
+      const statePath = path.join(process.cwd(), '.skillnomad-state.json');
       if (fs.existsSync(statePath)) {
         return JSON.parse(fs.readFileSync(statePath, 'utf-8'));
       }
@@ -923,7 +923,7 @@ export const defaultStateManager: PipelineStateManager = {
   },
 
   save(state: PipelineState): void {
-    const statePath = path.join(process.cwd(), '.skillpack-state.json');
+    const statePath = path.join(process.cwd(), '.skillnomad-state.json');
     state.updatedAt = new Date().toISOString();
     fs.writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf-8');
   },

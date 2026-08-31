@@ -3,5 +3,5 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": ["skillpack.config.ts", "skill.ts"]
+  "include": ["skillnomad.config.ts", "skill.ts"]
 }

@@ -52,10 +52,10 @@ jobs:
 
           should_release=false
           for pkg in \
-            packages/skillpack-types \
-            packages/skillpack-common \
-            packages/skillpack-build \
-            packages/skillpack-validate
+            packages/skillnomad-types \
+            packages/skillnomad-common \
+            packages/skillnomad \
+            packages/skillnomad-validate
           do
             name=$(node -p "require('./$pkg/package.json').name")
             package_version=$(node -p "require('./$pkg/package.json').version")
@@ -73,7 +73,7 @@ jobs:
             fi
           done
 
-          if gh api "repos/Co-Kyo/skillpack/releases/tags/${RELEASE_TAG}" >/dev/null 2>&1; then
+          if gh api "repos/Co-Kyo/skillnomad/releases/tags/${RELEASE_TAG}" >/dev/null 2>&1; then
             echo "release exists"
           else
             echo "release missing"
@@ -99,17 +99,22 @@ jobs:
         run: |
           set -euo pipefail
           for pkg in \
-            packages/skillpack-types \
-            packages/skillpack-common \
-            packages/skillpack-build \
-            packages/skillpack-validate
+            packages/skillnomad-types \
+            packages/skillnomad-common \
+            packages/skillnomad \
+            packages/skillnomad-validate
           do
             name=$(node -p "require('./$pkg/package.json').name")
             manifest_version=$(node -p "require('./release-manifest.json').packages['$name']")
             if npm view "$name@$manifest_version" >/dev/null 2>&1; then
               echo "exists $name@$manifest_version"
             else
-              npm publish --workspace "$pkg" --access public
+              # 预发布版本（含 "-"）走 beta dist-tag，不占 latest
+              if [[ "$manifest_version" == *-* ]]; then
+                npm publish --workspace "$pkg" --access public --tag beta
+              else
+                npm publish --workspace "$pkg" --access public
+              fi
             fi
           done
 
@@ -120,10 +125,10 @@ jobs:
           mkdir -p dist-release
           git archive --format=zip -o dist-release/source.zip "$RELEASE_TAG"
           for pkg in \
-            packages/skillpack-types \
-            packages/skillpack-common \
-            packages/skillpack-build \
-            packages/skillpack-validate
+            packages/skillnomad-types \
+            packages/skillnomad-common \
+            packages/skillnomad \
+            packages/skillnomad-validate
           do
             npm pack --workspace "$pkg" --pack-destination dist-release
           done

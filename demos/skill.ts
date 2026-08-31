@@ -8,8 +8,8 @@
 //   mapNode()  — Map 节点（滚动窗口，对每条目执行同一 worker）
 // ============================================================
 
-import type { StepDefinition } from '@co-kyo/skillpack-types';
-import { task, seq, parallel, mapNode, createSkill } from '@co-kyo/skillpack-types';
+import type { StepDefinition } from 'skillnomad-types';
+import { task, seq, parallel, mapNode, createSkill } from 'skillnomad-types';
 
 // ---------------------------------------------------------------
 // Step 00: 主题解析

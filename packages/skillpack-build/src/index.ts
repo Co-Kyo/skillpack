@@ -46,17 +46,39 @@ import {
   loop,
 } from '@co-kyo/skillpack-types';
 import {
+  CHAIN_TERMINAL,
   resolveStepOrder,
   validateStep,
   validateBarrierContinuity,
   validateDependencyRefs,
+  validateStepChain,
+  validatePhaseCoverage,
+  resolveChain,
+  deriveChainNext,
+  deriveInitStepId,
+  deriveFlowOverview,
+  derivePhaseIntervals,
+  formatInterval,
 } from '@co-kyo/skillpack-common';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as crypto from 'node:crypto';
 
 export { resolveStepOrder };
-export { validateStep, validateBarrierContinuity, validateDependencyRefs };
+export {
+  CHAIN_TERMINAL,
+  validateStep,
+  validateBarrierContinuity,
+  validateDependencyRefs,
+  validateStepChain,
+  validatePhaseCoverage,
+  resolveChain,
+  deriveChainNext,
+  deriveInitStepId,
+  deriveFlowOverview,
+  derivePhaseIntervals,
+  formatInterval,
+};
 
 export interface SkillMeta {
   name: string;
@@ -161,8 +183,16 @@ function convertDegrade(degrade?: SourceDegrade): DegradeProtocol | undefined {
   };
 }
 
-function renderInstruction(step: SourceStep): string {
+/**
+ * 渲染步骤正文。
+ *
+ * `derivedNext` 是框架由链序推导出的下一跳（见 `deriveChainNext`）。
+ * 只有当开发者既没写 `instruction.next`、框架也推导不出来时，才回落到「最终结束」。
+ * 这样 `next` 就从「必须手写的字段」变成了「可选覆盖的派生值」。
+ */
+function renderInstruction(step: SourceStep, derivedNext?: string): string {
   const instruction = step.instruction;
+  const nextLabel = instruction.next ?? derivedNext ?? '最终结束';
   let md = `# ${step.title}\n\n`;
   md += `## 目标\n\n${instruction.target}\n\n`;
 
@@ -217,7 +247,7 @@ function renderInstruction(step: SourceStep): string {
     md += `## 检查点\n\n${instruction.checkpointNote}\n\n`;
   }
 
-  md += `## 下一步\n\n${instruction.next ?? '最终结束'}\n`;
+  md += `## 下一步\n\n${nextLabel}\n`;
 
   if (instruction.contractRefs && instruction.contractRefs.length > 0) {
     md += `\n## 契约引用\n\n`;
@@ -325,6 +355,19 @@ export function resolveStepRefs(
 }
 
 export function createSkillFromModel(model: SkillSourceModel): SkillDefinition {
+  // 线性链契约：顺序的副产物一律由框架推导，不要求开发者手写。
+  // 在渲染步骤正文之前算好，renderInstruction 会把推导值作为回落。
+  const chainNext = deriveChainNext(model.steps);
+
+  // initStepId 是派生值：链已经声明了谁没有前驱。
+  // 开发者仍可显式指定（他更清楚哪一步承载初始化规则），但不是必须。
+  const initStepId = model.meta.initStepId ?? deriveInitStepId(model.steps);
+
+  // flowOverview 是派生值：阶段意图 + 链序即可算出区间标注。
+  // 开发者可用 meta.flowOverview 覆盖布局，但不是必须。
+  const flowOverview =
+    model.meta.flowOverview ?? deriveFlowOverview(model.steps, model.meta.phases ?? []);
+
   return {
     name: model.meta.name,
     title: model.meta.title,
@@ -338,8 +381,8 @@ export function createSkillFromModel(model: SkillSourceModel): SkillDefinition {
       params: model.meta.params,
       phases: model.meta.phases,
       initRules: model.meta.initRules,
-      initStepId: model.meta.initStepId,
-      flowOverview: model.meta.flowOverview,
+      initStepId,
+      flowOverview,
     },
     steps: model.steps.map(step => ({
       id: step.id,
@@ -348,9 +391,9 @@ export function createSkillFromModel(model: SkillSourceModel): SkillDefinition {
       dependsOn: step.dependsOn,
       initRules: step.initRules,
       runtimeTrace: model.policies.runtimeTrace,
-      body: renderInstruction(step),
+      body: renderInstruction(step, chainNext[step.id]),
       sourceTrace: sourceTraceForStep(step),
-      next: step.next,
+      next: step.next ?? chainNext[step.id],
       graph: convertSourceFlow(step.flow),
       reads: step.reads.map(sourceRef),
       writes: step.writes.map(sourceRef),
@@ -1079,6 +1122,8 @@ export function buildPipeline(
   const errors = [
     ...steps.flatMap(validateStep),
     ...validateDependencyRefs(steps),
+    ...validateStepChain(steps),
+    ...validatePhaseCoverage(steps, meta?.api?.phases ?? []),
     ...validateBarrierContinuity(steps),
   ];
 

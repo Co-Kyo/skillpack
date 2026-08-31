@@ -18,6 +18,14 @@ import type {
 export interface StepBuilder {
   target(value: string): StepBuilder;
   summary(value: string): StepBuilder;
+
+  /**
+   * 声明步骤间的直接前驱。**步骤之间是线性链，不是 DAG。**
+   *
+   * - 请只传一个前驱；需要并行/分支时在 `.parallel()` / `.map()` 内部表达，
+   *   不要把可并行动作拆成多个顶层步骤。
+   * - 与 `.next()` 互为反函数，**只调用其中一个即可**，另一个由框架推导。
+   */
   dependsOn(...ids: string[]): StepBuilder;
   reads(...refs: SourceRef[]): StepBuilder;
   writes(...refs: SourceRef[]): StepBuilder;
@@ -39,7 +47,14 @@ export interface StepBuilder {
   checkpoint(checkpoint: SourceCheckpoint): StepBuilder;
   decision(decision: SourceDecisionSummary): StepBuilder;
   display(display: SourceDecisionDisplay): StepBuilder;
+  /**
+   * 声明步骤的直接后继。**这是派生字段，通常不必手写。**
+   *
+   * 该值仅被渲染为步骤文件的「下一步」章节，**不参与任何校验**；
+   * 若已调用 `.dependsOn()`，此处可省略，由框架推导补出。
+   */
   next(id: string): StepBuilder;
+
   initRules(...rules: SourceInitRule[]): StepBuilder;
   plugins(...plugins: string[]): StepBuilder;
   reuse(...rules: SourceReuseRule[]): StepBuilder;

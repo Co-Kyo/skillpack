@@ -294,17 +294,48 @@ export interface SourceStep {
   summary?: string;
   /** 当该步骤是 pipeline 初始化步骤时，渲染为 SKILL.md 的初始化规则。 */
   initRules?: SourceInitRule[];
+
+  /**
+   * **步骤间的直接前驱（线性链契约）**
+   *
+   * 步骤之间的关系是**线性链**，不是 DAG：
+   * - 每个步骤最多一个前驱、一个后继；
+   * - 需要并行或分支，请在 `flow` 内部表达（`parallel` / `map`），
+   *   **不要把可并行的动作拆成多个顶层步骤**——顶层 step 是不可并行的执行单位；
+   * - `dependsOn` 与 `next` 互为反函数，
+   *   **只需声明其中一个**，另一个由框架推导。二者同时声明属冗余。
+   *
+   * 违反契约（多依赖 / 成环 / 断链 / 悬空引用）将在构建期报错，
+   * **不会静默线性化**。
+   */
   dependsOn: string[];
+
   reads: SourceRef[];
   writes: SourceRef[];
-  instruction: SourceInstruction;
+
+  /**
+   * **步骤内的控制流**——并行与分支只在这一层表达。
+   * 支持 `do` / `seq` / `parallel` / `map` / `branch` / `loop`，
+   * 其中 `parallel` 用 `gate` 收敛、`map` 用 `maxConcurrency` 控制并发度。
+   */
   flow: SourceFlow;
+
+  instruction: SourceInstruction;
   checkpoint?: SourceCheckpoint;
   decision?: SourceDecisionSummary;
   display?: SourceDecisionDisplay;
   reuse?: SourceReuseRule[];
   degrade?: SourceDegrade;
   plugins?: string[];
+
+  /**
+   * **步骤的直接后继（派生字段）**
+   *
+   * 可由 `dependsOn` 或链顺序推导。框架仅将其渲染为步骤文件的「下一步」章节，
+   * **不参与任何校验**——因此单独声明它不构成额外保障。
+   *
+   * 若已声明 `dependsOn`，此字段可省略，由框架补出。
+   */
   next?: string;
 }
 
@@ -334,6 +365,17 @@ export interface SourceParam {
   description: string;
 }
 
+/**
+ * 一个阶段 = 一段**意图**：这个阶段想达成什么，以及它包含哪些步骤。
+ *
+ * 只声明「包含哪些步骤」（`stepIds`），**不声明下标、不声明区间**。
+ * 「第几步到第几步」（如 `(04-06)`）是顺序的副产物，由框架从链序推导
+ * （`derivePhaseIntervals` / `deriveFlowOverview`）。
+ *
+ * 约束（构建期由 `validatePhaseCoverage` 断言）：
+ * 阶段必须覆盖链上每一步、互不重叠、各自连续、且声明顺序与链序一致。
+ * 不满足就无法安全推导区间标注，因此框架报错而非猜测。
+ */
 export interface SourcePhase {
   name: string;
   stepIds: string[];
@@ -360,10 +402,27 @@ export interface SourceMeta {
   isolationNote?: string;
   includeBuildFooter?: boolean;
   params: SourceParam[];
+  /**
+   * 阶段**意图**声明：每个阶段包含哪些步骤。
+   * 阶段边界与区间标注由框架从此 + 链序推导，不要求手写。
+   */
   phases: SourcePhase[];
   initRules?: SourceInitRule[];
-  /** 指定哪个步骤负责 pipeline 初始化；renderer 优先从该步骤读取 initRules。 */
+  /**
+   * 哪个步骤负责 pipeline 初始化；renderer 优先从该步骤读取 initRules。
+   *
+   * **派生字段**：链已经声明了谁没有前驱，默认值由 `deriveInitStepId()` 算出。
+   * 可省略；显式提供时用于覆盖（例如初始化规则挂在链起点之外的步骤上）。
+   */
   initStepId?: string;
+  /**
+   * 流程总览的 ASCII 图。
+   *
+   * **派生字段**：阶段名 + 区间标注均可由 `deriveFlowOverview()` 从
+   * `phases` + 链序算出，因此可省略。
+   * 显式提供时用于覆盖**布局**（布局属于表达，框架不垄断），
+   * 但其中的区间标注不再有人校验——手写即意味着自己承担漂移风险。
+   */
   flowOverview?: string;
 }
 

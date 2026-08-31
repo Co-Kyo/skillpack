@@ -2,11 +2,17 @@
 // skillpack-validate — Reference integrity checker for skill pipelines
 // ============================================================
 
-import type { StepDefinition, ResolvedPipeline } from '@co-kyo/skillpack-types';
+import type {
+  StepDefinition,
+  ResolvedPipeline,
+  SourcePhase,
+} from '@co-kyo/skillpack-types';
 import {
   validateStep,
   validateDependencyRefs,
   validateBarrierContinuity,
+  validateStepChain,
+  validatePhaseCoverage,
   resolveStepOrder,
 } from '@co-kyo/skillpack-common';
 
@@ -21,10 +27,19 @@ export interface ValidationReport {
  * Full validation of a step definition array:
  * 1. Individual step validation
  * 2. Dependency reference integrity
- * 3. Barrier continuity
- * 4. Circular dependency detection
+ * 3. Linear chain contract (steps form a single chain, parallelism lives inside `flow`)
+ * 4. Phase coverage — optional, only checked when phases are supplied
+ * 5. Barrier continuity
+ * 6. Circular dependency detection
+ *
+ * `phases` 是可选的：阶段声明是**派生阶段边界与流程总览的输入**，
+ * 若提供了就必须自洽（覆盖、不重叠、连续、顺序一致），
+ * 否则框架算出来的区间标注不可信。
  */
-export function validatePipeline(steps: StepDefinition[]): ValidationReport {
+export function validatePipeline(
+  steps: StepDefinition[],
+  phases: SourcePhase[] = [],
+): ValidationReport {
   const errors: Array<{ stepId: string; field: string; message: string }> = [];
   const warnings: Array<{ stepId: string; field: string; message: string }> = [];
 
@@ -33,6 +48,12 @@ export function validatePipeline(steps: StepDefinition[]): ValidationReport {
 
   // Dependency references
   errors.push(...validateDependencyRefs(steps));
+
+  // Linear chain contract
+  errors.push(...validateStepChain(steps));
+
+  // Phase coverage（阶段意图是派生值的唯一输入，不自洽就必须报错）
+  errors.push(...validatePhaseCoverage(steps, phases));
 
   // Barrier continuity
   const barrierErrors = validateBarrierContinuity(steps);

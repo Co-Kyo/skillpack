@@ -1,6 +1,6 @@
 {
   "name": "@co-kyo/skillpack-common",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Validation, topological sorting and graph helpers for skillpack",
   "keywords": ["skillpack", "llm", "skill", "pipeline", "topological-sort", "graph"],
   "type": "module",

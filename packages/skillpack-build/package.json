@@ -1,6 +1,6 @@
 {
   "name": "@co-kyo/skillpack",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "skillpack — build LLM-executable Markdown skills from structured pipeline definitions",
   "keywords": ["skillpack", "llm", "ai-agents", "agent-skills", "skill", "pipeline", "markdown", "claude"],
   "type": "module",

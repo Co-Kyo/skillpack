@@ -1,6 +1,6 @@
 {
   "name": "@co-kyo/skillpack-validate",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipeline integrity validator for skillpack",
   "keywords": ["skillpack", "llm", "skill", "pipeline", "validation"],
   "type": "module",

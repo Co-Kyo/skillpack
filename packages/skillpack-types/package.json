@@ -1,6 +1,6 @@
 {
   "name": "@co-kyo/skillpack-types",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Type system and builder primitives for skillpack",
   "keywords": ["skillpack", "llm", "skill", "pipeline", "types", "builder"],
   "type": "module",
